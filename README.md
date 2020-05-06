@@ -1,3 +1,6 @@
+# Essential Math for Data Science
+- https://resources.oreilly.com/binderhub/essential-math-for-data-science
+
 # MachineLearning
 
 https://www.kaggle.com/loryn808
