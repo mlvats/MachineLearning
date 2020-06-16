@@ -34,4 +34,24 @@
  6. XXXXXX Architecture :
     - Tech Control - Data Central Migration.
   
+ MDAS: a fully managed, controlled and SR11-7 compliant production platform for Model execution with end to end data.
+ 
+ MDAS - Batch Models Deployment Patterns.
+ 
+ Model Training :     Model Serving   : Pattern Description
+ 
+  `~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ `
    
+ -  SAS Sandbox   ==> Hadoop/AWS (Python/Scala & Spark)  ==>  Pattern 1:   Models trained in SAS can gain > 90% performance improvement when deployed on distribution compute using spark.
+ 
+ - MT - Discovery (Python/Scala & Spark) ==> Hadoop/AWS (Python/Scala & Spark)  ==>  Pattern 2: 
+ 
+  - MT - Discovery (Python/Scala & Spark) ==> AWS (Python/Scala & Spark on EMR/ SageMaker)  ==>  Pattern 3: 
+ 
+ - MT - Discovery (single core (SKLearn) ) ==> GKP (CMDS Wrapper + Containerized code)  ==>  Pattern 4:  BYOM (Bring your own model). Suitable for single core processes. Based on data classification, internal or public cloud options can be leveraged.
+ 
+ - AWS (Omni AI Notebook, Sagemaker) ==> - AWS (Omni AI Sagemaker)  ==>  Pattern 5:  BYOM (Bring your own model) &  BYOM (Bring your own data).   Quick migration from training to serving for models trained on Omni AI.
+ 
+  -  SAS Sandbox   ==>  GKP (Python/java )  ==> Pattern 6: Model trained in SAS are being 
+   
+ 
