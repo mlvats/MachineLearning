@@ -52,6 +52,12 @@
  
  - AWS (Omni AI Notebook, Sagemaker) ==> - AWS (Omni AI Sagemaker)  ==>  Pattern 5:  BYOM (Bring your own model) &  BYOM (Bring your own data).   Quick migration from training to serving for models trained on Omni AI.
  
-  -  SAS Sandbox   ==>  GKP (Python/java )  ==> Pattern 6: Model trained in SAS are being 
+  -  SAS Sandbox   ==>  GKP (Python/java )  ==> Pattern 6: Model trained in SAS are being deployed in Ninja for real-time transactions with strict SLA.
+  
+  - AWS (Omni AI Notebook, Sagemaker) ==> - AWS (Python on OmniAI SageMaker )  ==>  Pattern 7: Near real-time tansactions (SLA > 10 sec) can be deployed in public cloud to benefit from on-demand infrastructure brusting.
+  
+ - MT - Discovery (Python/Scala & Spark)  ==> - GKP ( python / java)  ==>  Pattern 8:  On-prem model execution provide low latency to real-time transactional systems.
+   
+ 
    
  
