@@ -1,0 +1,29 @@
+summary: "Add 2 Numbers"
+description: "This is a simple API which returns ML Model Prediction"
+consumes:
+- "application/json"
+produces:
+- "application/json"
+parameters:
+- in: "body"
+  name: "body"
+  description: "Accepts a input json dictionary, inputs ML inference"
+  required: true
+  schema:
+    type: "object"
+    properties:
+      x1:
+        type: "integer"
+        format: "int64"
+        example : 190
+      x2:
+        type: "integer"
+        format: "int64"
+        example : 70
+      x3:
+        type: "integer"
+        format: "int64"
+        example : 43
+responses:
+  405:
+    description: "Invalid input"
