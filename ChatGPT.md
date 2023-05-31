@@ -103,4 +103,12 @@ Note that the example provided here is a simplified version, and depending on yo
 
    - Cosine Similarity: Measures the cosine of the angle between two vectors, representing the similarity between the vectors' directions.
 
+=====================
 
+
+my_list = [1, 2, 3, 3, 4, 5, 5, 6]
+unique_list = []
+for item in my_list:
+    if item not in unique_list:
+        unique_list.append(item)
+print(unique_list)
