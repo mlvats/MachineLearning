@@ -1,3 +1,24 @@
+import pandas as pd
+
+# Create a sample DataFrame
+data = {'Name': ['Alice', 'Bob', 'Charlie', 'Dave'],
+        'Age': [25, 30, 35, 40],
+        'City': ['New York', 'London', 'Paris', 'Tokyo']}
+df = pd.DataFrame(data)
+
+# Get the variable value from the user
+user_input = input("Enter a city name to filter the DataFrame: ")
+
+# Build the query string
+query_string = f"City == '{user_input}'"
+
+# Query the DataFrame using the variable value
+filtered_df = df.query(query_string)
+
+# Display the filtered DataFrame
+print(filtered_df)
+
+=================
 To compare descriptions of metadata fields and determine if they represent the same fields, you can use various text similarity or distance metrics. Here's a general approach you can follow:
 
 1. Gather the metadata field descriptions: Collect the descriptions of the metadata fields you want to compare. Ensure that the descriptions are available in a digital format for processing.
