@@ -1,4 +1,69 @@
 import pandas as pd
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+from PyDictionary import PyDictionary
+
+# Step 1: Load and preprocess the metadata
+
+# Load metadata from a CSV file
+metadata = pd.read_csv('metadata.csv')
+
+# Combine relevant metadata fields into a single text field
+metadata['combined_metadata'] = metadata['title'] + ' ' + metadata['business_metadata'] + ' ' + metadata['technical_metadata']
+
+# Step 2: Define a function to generate synonyms for a given query term
+
+def generate_synonyms(query_term):
+    dictionary = PyDictionary()
+    synonyms = dictionary.synonym(query_term)
+    if synonyms is None:
+        synonyms = []
+    return synonyms
+
+# Step 3: Define a function to perform the search
+
+def perform_search(query):
+    # Generate synonyms for the query terms
+    synonyms = []
+    for term in query.split():
+        synonyms.extend(generate_synonyms(term))
+    
+    # Combine query terms and synonyms
+    search_terms = query + ' ' + ' '.join(synonyms)
+    
+    # Create TF-IDF vectors for the metadata
+    vectorizer = TfidfVectorizer()
+    metadata_vectors = vectorizer.fit_transform(metadata['combined_metadata'])
+    
+    # Create a vector for the search query
+    query_vector = vectorizer.transform([search_terms])
+    
+    # Compute cosine similarity between query vector and metadata vectors
+    similarities = cosine_similarity(query_vector, metadata_vectors).flatten()
+    
+    # Sort the metadata indices based on similarity scores
+    indices = similarities.argsort()[::-1]
+    
+    # Retrieve the top relevant metadata entries
+    top_metadata = metadata.iloc[indices][:5]
+    
+    return top_metadata
+
+# Step 4: Perform a search using the model
+
+# Define the search query
+query = "customer analysis"
+
+# Perform the search
+results = perform_search(query)
+
+# Display the search results
+print("Search Results:")
+print(results[['title', 'business_metadata', 'technical_metadata']])
+
+
+===================================================================
+import pandas as pd
 
 # Create a sample DataFrame
 data = {'Name': ['Alice', 'Bob', 'Charlie', 'Dave'],
