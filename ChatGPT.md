@@ -3,6 +3,20 @@ from gensim.models import Word2Vec
 # Load a pre-trained Word2Vec model
 model = Word2Vec.load('word2vec.model')
 
+# Define a set of words
+word_set = {'king', 'queen', 'throne'}
+
+# Find the most similar word to the given set of words
+most_similar_word = model.wv.most_similar_to_given('king', word_set)
+
+print(f"Most similar word to the given set of words: {most_similar_word}")
+
+============================================
+from gensim.models import Word2Vec
+
+# Load a pre-trained Word2Vec model
+model = Word2Vec.load('word2vec.model')
+
 def generate_synonyms(query_term):
     synonyms = []
     if query_term in model.wv:
