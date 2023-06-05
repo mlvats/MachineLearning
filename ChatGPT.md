@@ -1,3 +1,27 @@
+from gensim.models import Word2Vec
+
+# Load a pre-trained Word2Vec model
+model = Word2Vec.load('word2vec.model')
+
+def generate_synonyms(query_term):
+    synonyms = []
+    if query_term in model.wv:
+        similar_words = model.wv.most_similar(positive=[query_term], topn=5)
+        for word, _ in similar_words:
+            synonyms.append(word)
+    return synonyms
+
+from nltk.corpus import wordnet
+from nltk.wsd import lesk
+
+def generate_synonyms(query_term):
+    synonyms = []
+    synset = lesk([], query_term)
+    if synset:
+        synonyms = [lemma.name() for lemma in synset.lemmas()]
+    return synonyms
+
+==========================================================================
 import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
