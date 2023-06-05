@@ -1,4 +1,44 @@
 from gensim.models import Word2Vec
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize
+
+# Load the financial text corpus
+corpus = [
+    "Equity represents ownership in a company",
+    "Debt is a financial obligation that must be repaid",
+    "IPO is the process of offering shares to the public",
+    "Mergers and acquisitions involve combining companies",
+    "Derivatives are financial instruments with values derived from underlying assets",
+    "Underwriting involves assuming the risk of an insurance policy",
+    "Capital markets are where securities are traded",
+    "Private equity involves investing in non-publicly traded companies",
+    "Risk management is the process of identifying and mitigating risks",
+    "Financial modeling is the practice of creating mathematical models to analyze financial data"
+]
+
+# Preprocess the corpus
+stop_words = set(stopwords.words('english'))
+
+preprocessed_corpus = []
+for document in corpus:
+    tokens = word_tokenize(document.lower())
+    filtered_tokens = [token for token in tokens if token.isalpha() and token not in stop_words]
+    preprocessed_corpus.append(filtered_tokens)
+
+# Train the Word2Vec model
+model = Word2Vec(preprocessed_corpus, size=100, window=5, min_count=1, workers=4)
+
+# Retrieve synonyms for a financial term
+term = 'equity'
+synonyms = model.wv.most_similar(term)
+
+# Print the synonyms
+print(f"Synonyms for '{term}':")
+for word, similarity in synonyms:
+    print(f"{word}: {similarity}")
+
+=======================================================
+from gensim.models import Word2Vec
 
 # Load a pre-trained Word2Vec model
 model = Word2Vec.load('word2vec.model')
