@@ -1,3 +1,28 @@
+pip install spacy
+python -m spacy download en_core_web_sm
+
+------------
+import spacy
+
+def get_synonyms(word):
+    nlp = spacy.load("en_core_web_sm")
+    token = nlp(word)[0]
+    synonyms = []
+    for syn in token._.w2v_synonyms:
+        synonyms.append(syn.text)
+    return synonyms
+
+financial_terms = ['equity', 'debt', 'IPO', 'M&A', 'derivatives', 'underwriting', 'capital markets', 'private equity', 'risk management', 'financial modeling']
+
+for term in financial_terms:
+    synonyms = get_synonyms(term)
+    print(f"Synonyms for '{term}':")
+    if synonyms:
+        print(', '.join(synonyms))
+    else:
+        print("No synonyms found.")
+
+===============================================
 from gensim.models import Word2Vec
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
