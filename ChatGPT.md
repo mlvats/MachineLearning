@@ -1,3 +1,16 @@
+A highly motivated professional with a strong passion for AWS Cloud Engineering, MLOps, Big Data Platforms, event-driven microservices, and application modernization. Seeking a challenging role where I can leverage my expertise in designing scalable and resilient cloud architectures, implementing MLOps best practices, developing event-driven microservices, and driving the modernization of legacy applications to unlock their full potential."
+
+Career Summary:
+"Results-driven professional with a keen interest in AWS Cloud Engineering, MLOps, Big Data Platforms, event-driven microservices, and application modernization. Proven track record in designing and implementing cloud infrastructure, optimizing data workflows, ensuring successful deployment and monitoring of machine learning models, and developing event-driven microservices architectures. Experienced in driving the modernization of legacy applications to improve performance, scalability, and maintainability. Seeking opportunities to apply my technical skills and leadership abilities to deliver impactful solutions, enable real-time data processing, and transform applications for the digital era."
+
+By incorporating event-driven microservices and application modernization into your career interests, you showcase a broader skill set and demonstrate adaptability to modern software architectures and development approaches. Again, remember to customize the language and details to align with your specific experience and career aspirations.
+
+
+
+
+
+
+===================================================================
 pip install spacy
 python -m spacy download en_core_web_sm
 
