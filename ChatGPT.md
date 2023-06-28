@@ -1,3 +1,20 @@
+If you are using AWS Lambda as your data source in AWS AppSync, there are specific resource constraints and considerations related to AWS Lambda that you need to be aware of. Here are some important constraints to consider:
+
+1. **Memory Size**: AWS Lambda allows you to configure the memory size allocated to each function. The chosen memory size directly affects the CPU power and other allocated resources. Be mindful of the memory size as it impacts the overall performance and execution time of your Lambda functions.
+
+2. **Timeout**: AWS Lambda functions have a maximum execution time limit, which is 900 seconds (15 minutes) by default. This means that your functions should complete their execution within this time frame. Ensure that your Lambda functions can process the requested data and respond within the timeout duration to avoid interruptions.
+
+3. **Concurrent Executions**: AWS Lambda enforces concurrent execution limits to control the number of simultaneous function invocations. The default limit varies by region, but it can be increased by requesting a limit increase. Monitor and plan for the concurrent execution limit to ensure that your application can handle the expected traffic and workload.
+
+4. **Invocation Payload Size**: Lambda functions have limits on the size of the input and output payloads. The maximum payload size for synchronous invocations is 6 MB for the request and response. For asynchronous invocations, the maximum payload size is 256 KB. Ensure that your GraphQL requests and responses fit within these payload size limits.
+
+5. **Cold Start**: AWS Lambda functions experience a cold start latency when invoked for the first time or when they haven't been used for a while. This cold start latency can impact the response time of your GraphQL queries if the Lambda function needs to be initialized. Consider warming up your functions or using provisioned concurrency to mitigate cold start delays.
+
+6. **Billing and Cost**: Lambda functions are billed based on the number of invocations, execution time, and memory utilization. Keep track of your function usage and monitor the associated costs to ensure they align with your budget and requirements.
+
+By considering these constraints and optimizing your AWS Lambda functions accordingly, you can ensure efficient and reliable data retrieval and processing within your AWS AppSync application. Regularly monitor your Lambda function metrics and leverage AWS CloudWatch for performance monitoring and troubleshooting as needed.
+
+======================================================================================================================
 A highly motivated professional with a strong passion for AWS Cloud Engineering, MLOps, Big Data Platforms, event-driven microservices, and application modernization. Seeking a challenging role where I can leverage my expertise in designing scalable and resilient cloud architectures, implementing MLOps best practices, developing event-driven microservices, and driving the modernization of legacy applications to unlock their full potential."
 
 Career Summary:
