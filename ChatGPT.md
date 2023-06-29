@@ -1,3 +1,6 @@
+aws s3 ls --summarize --human-readable --recursive s3://bucket-name/path/to/object
+
+===============
 If you are using AWS Lambda as your data source in AWS AppSync, there are specific resource constraints and considerations related to AWS Lambda that you need to be aware of. Here are some important constraints to consider:
 
 1. **Memory Size**: AWS Lambda allows you to configure the memory size allocated to each function. The chosen memory size directly affects the CPU power and other allocated resources. Be mindful of the memory size as it impacts the overall performance and execution time of your Lambda functions.
