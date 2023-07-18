@@ -1,23 +1,8 @@
-Dear [Manager's Name],
+result = {}
+    for row in data:
+        result[row[0]] = row[1]
 
-I hope this letter finds you well. I am writing to inform you of a recent development in my career path within [Company Name]. After careful consideration and discussions with the relevant stakeholders, I have been offered and have accepted another job position within the company.
-
-I want to express my sincere gratitude for the opportunities and support you have provided me during my time in my current role. Working under your leadership has been an invaluable experience, and I have learned a great deal from your guidance and mentorship. I am truly appreciative of the trust you have placed in me, and I will always cherish the memories of our time working together.
-
-The new role I will be transitioning to aligns perfectly with my long-term career goals, and I am excited about the fresh challenges and responsibilities it will bring. Rest assured that I will do my best to ensure a smooth handover of my current tasks and responsibilities. I am committed to ensuring a seamless transition for the team and am willing to assist in any way possible during this process.
-
-I have thoroughly enjoyed being a part of the team here at [Company Name], and I genuinely believe that the company's future is bright. I am confident that the team will continue to thrive, and I look forward to staying connected with my colleagues in my new capacity.
-
-I understand the importance of maintaining a good relationship with the team and the company as a whole. Please know that my decision to move to a different role within the organization is not a reflection of any dissatisfaction; rather, it is driven by my desire to pursue new challenges and opportunities.
-
-Once again, thank you for everything, and I am grateful for your understanding and support during this transition. If there is anything specific you would like me to focus on during the handover process, please let me know, and I will be more than willing to accommodate your needs.
-
-I wish you and the entire team continued success, and I look forward to staying in touch with all of you.
-
-Thank you and best regards,
-
-[Your Name]
-
+    return jsonify(result)
 
 
 
