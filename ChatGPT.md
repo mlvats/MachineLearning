@@ -1,10 +1,37 @@
-result = {}
+import os
+import psycopg2
+from flask import Flask, request, jsonify
+
+app = Flask(__name__)
+
+@app.route('/api/v1/data', methods=['GET'])
+def get_data():
+    """
+    Get data from the PostgreSQL database view and return the result as JSON.
+    """
+
+    conn = psycopg2.connect(
+        host=os.environ['POSTGRES_HOST'],
+        port=os.environ['POSTGRES_PORT'],
+        user=os.environ['POSTGRES_USER'],
+        password=os.environ['POSTGRES_PASSWORD'],
+        database=os.environ['POSTGRES_DB']
+    )
+    cursor = conn.cursor()
+    cursor.execute('SELECT * FROM view_name')
+    data = cursor.fetchall()
+    cursor.close()
+    conn.close()
+
+    json_data = []
     for row in data:
-        result[row[0]] = row[1]
+        json_data.append({
+            **{field.name: row[i] for i, field in enumerate(cursor.description)},
+        })
 
-    return jsonify(result)
+    return jsonify(json_data)
 
-
+if __name__ == '__main__':
 
 Regenerate response
 
