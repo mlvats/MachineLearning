@@ -1,3 +1,39 @@
+import pandas as pd
+
+# Create a DataFrame
+df = pd.DataFrame({
+  "name": ["Bob", "Mary", "Joe", "John"],
+  "size": ["1000 bytes", "1000 KB", "1000 MB", "1000 GB"]
+})
+
+# Convert the file sizes to bytes
+def convert_size_to_bytes(size):
+  """
+  Converts a file size string to bytes.
+
+  Args:
+    size (str): The file size string.
+
+  Returns:
+    int: The file size in bytes.
+  """
+
+  if size.endswith(" bytes"):
+    return int(size.replace(" bytes", ""))
+  elif size.endswith(" KB"):
+    return int(size.replace(" KB", "")) * 1024
+  elif size.endswith(" MB"):
+    return int(size.replace(" MB", "")) * 1024 * 1024
+  elif size.endswith(" GB"):
+    return int(size.replace(" GB", "")) * 1024 * 1024 * 1024
+
+# Apply the function to the file size column
+df["size"] = df["size"].apply(convert_size_to_bytes)
+
+# Print the DataFrame
+print(df)
+
+=======================
 import os
 import psycopg2
 from flask import Flask, request, jsonify
