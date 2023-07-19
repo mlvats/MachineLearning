@@ -18,14 +18,16 @@ def convert_size_to_bytes(size):
     int: The file size in bytes.
   """
 
-  if size.endswith(" bytes"):
-    return int(size.replace(" bytes", ""))
-  elif size.endswith(" KB"):
-    return int(size.replace(" KB", "")) * 1024
-  elif size.endswith(" MB"):
-    return int(size.replace(" MB", "")) * 1024 * 1024
-  elif size.endswith(" GB"):
-    return int(size.replace(" GB", "")) * 1024 * 1024 * 1024
+ if isinstance(size, str) and size.endswith(" bytes"):
+    return float(size.replace(" bytes", ""))
+  elif isinstance(size, str) and size.endswith(" KB"):
+    return float(size.replace(" KB", "")) * 1024
+  elif isinstance(size, str) and size.endswith(" MB"):
+    return float(size.replace(" MB", "")) * 1024 * 1024
+  elif isinstance(size, str) and size.endswith(" GB"):
+    return float(size.replace(" GB", "")) * 1024 * 1024 * 1024
+  else:
+    return size
 
 # Apply the function to the file size column
 df["size"] = df["size"].apply(convert_size_to_bytes)
