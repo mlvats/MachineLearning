@@ -3,7 +3,7 @@ import pandas as pd
 # Create a DataFrame
 df = pd.DataFrame({
   "name": ["Bob", "Mary", "Joe", "John"],
-  "size": ["1000 bytes", "1000 KB", "1000 MB", "1000 GB"]
+  "size": ["1000.0 bytes", "1000.1 KB", "1000.2 MB", "1000.3 GB"]
 })
 
 # Convert the file sizes to bytes
