@@ -1,3 +1,62 @@
+CREATE OR REPLACE FUNCTION create_combined_view()
+RETURNS VOID AS
+$$
+DECLARE
+    view_name text := 'combined_view';
+    schema_name text := 'public'; -- Replace with the schema name where you want to create the view
+    table1_name text := 'table1';
+    table2_name text := 'table2';
+    common_columns text[];
+    unique_columns_table1 text[];
+    unique_columns_table2 text[];
+    sql_query text;
+BEGIN
+    -- Get common columns between table1 and table2
+    SELECT array_agg(column_name)
+    INTO common_columns
+    FROM information_schema.columns
+    WHERE table_schema = schema_name AND table_name = table1_name
+    INTERSECT
+    SELECT array_agg(column_name)
+    FROM information_schema.columns
+    WHERE table_schema = schema_name AND table_name = table2_name;
+
+    -- Get unique columns for table1 (not in table2)
+    SELECT array_agg(column_name)
+    INTO unique_columns_table1
+    FROM information_schema.columns
+    WHERE table_schema = schema_name AND table_name = table1_name
+    AND column_name NOT IN (SELECT unnest(common_columns));
+
+    -- Get unique columns for table2 (not in table1)
+    SELECT array_agg(column_name)
+    INTO unique_columns_table2
+    FROM information_schema.columns
+    WHERE table_schema = schema_name AND table_name = table2_name
+    AND column_name NOT IN (SELECT unnest(common_columns));
+
+    -- Construct the dynamic SQL query to create the view
+    sql_query := format('CREATE OR REPLACE VIEW %I AS
+                         SELECT %s, %s
+                         FROM %I.%I
+                         UNION
+                         SELECT %s, %s
+                         FROM %I.%I;',
+                         view_name,
+                         array_to_string(common_columns, ', '),
+                         array_to_string(unique_columns_table1, ', '),
+                         schema_name, table1_name,
+                         array_to_string(common_columns, ', '),
+                         array_to_string(unique_columns_table2, ', '),
+                         schema_name, table2_name);
+
+    -- Execute the dynamic SQL query
+    EXECUTE sql_query;
+END;
+$$
+LANGUAGE plpgsql;
+
+---------
 import pandas as pd
 
 # Create a DataFrame
