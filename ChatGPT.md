@@ -1,3 +1,34 @@
+Certainly, here are the pros and cons of using AWS Glue ETL versus AWS Lambda for taking an S3 snapshot from an AWS DynamoDB table with a relatively small number of records (not in the millions):
+
+AWS Glue ETL:
+
+Pros:
+
+Ease of Use: AWS Glue provides a managed ETL service that simplifies the development, execution, and monitoring of ETL jobs. It is particularly suitable for users who are less experienced with ETL.
+Scalability: AWS Glue is designed to handle ETL workloads of varying sizes. While DynamoDB may not have millions of records, Glue can efficiently scale to handle larger datasets if your requirements change.
+Built-in Connectors: Glue offers built-in connectors for various data sources, including DynamoDB and S3, making it easy to integrate these services in your ETL pipeline.
+Data Catalog: AWS Glue integrates with the AWS Glue Data Catalog, which can simplify metadata management and provide data lineage information.
+Managed Service: Glue is a fully managed service, meaning AWS takes care of the underlying infrastructure, patching, and scaling, reducing operational overhead.
+Cons:
+
+Cost: AWS Glue has a cost associated with it, which may be higher than running a simple Lambda function for a small-scale ETL task.
+Complexity: If your ETL process is straightforward and doesn't require complex transformations, Glue may introduce unnecessary complexity.
+AWS Lambda:
+
+Pros:
+
+Cost-Effective: For simple ETL tasks with a small number of records, Lambda can be more cost-effective as you only pay for the compute time used during each execution.
+Customization: Lambda provides more flexibility to customize your ETL process, allowing you to write code in the programming language of your choice (e.g., Python, Node.js).
+Event-Driven: Lambda can be triggered by various AWS services (e.g., DynamoDB streams) and custom events, making it suitable for real-time ETL when data changes occur.
+Serverless: Lambda is a serverless compute service, so you don't need to worry about provisioning or managing servers.
+Cons:
+
+Operational Overhead: While Lambda is serverless, it still requires you to handle event triggering, error handling, and logging, which might introduce additional operational complexity.
+Limited Tooling: Compared to AWS Glue, Lambda provides limited built-in tooling for ETL tasks. You'll need to develop and manage more components yourself.
+Scalability: While Lambda scales automatically, it may not be as optimized as AWS Glue for handling larger-scale ETL tasks, and you might need to manage scaling considerations manually for more significant datasets.
+In summary, for a small-scale ETL task with a DynamoDB table that doesn't have millions of records, AWS Lambda can be a cost-effective and straightforward option. AWS Glue is advantageous when dealing with more complex ETL transformations, metadata management, or when anticipating potential scalability needs in the future. The choice between the two depends on your specific requirements, existing infrastructure, and familiarity with the services.
+
+====================================================
 Title: Refinitiv Field Adoption Accelerator - Leveraging Machine Learning for Enhanced Security Reference Data Utilization
 
 Introduction:
