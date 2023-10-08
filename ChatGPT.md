@@ -1,3 +1,18 @@
+# Existing dictionary
+my_dict = {'name': 'Alice', 'age': 25}
+
+# New key-value pairs
+new_pairs = {'city': 'London', 'country': 'UK'}
+
+# Add new key-value pairs using dictionary comprehension
+my_dict = {**my_dict, **new_pairs}
+
+# Print the updated dictionary
+print(my_dict)
+
+
+
+-------------
 Certainly, here are the pros and cons of using AWS Glue ETL versus AWS Lambda for taking an S3 snapshot from an AWS DynamoDB table with a relatively small number of records (not in the millions):
 
 AWS Glue ETL:
