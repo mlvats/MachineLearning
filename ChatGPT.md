@@ -1,14 +1,40 @@
-# Existing dictionary
-my_dict = {'name': 'Alice', 'age': 25}
+# Create a list to store multiple student dictionaries
+students = []
 
-# New key-value pairs
-new_pairs = {'city': 'London', 'country': 'UK'}
+# Create individual student dictionaries and add them to the list
+student1 = {
+    'name': 'John',
+    'age': 20,
+    'grade': 'A',
+    'city': 'New York'
+}
 
-# Add new key-value pairs using dictionary comprehension
-my_dict = {**my_dict, **new_pairs}
+student2 = {
+    'name': 'Alice',
+    'age': 22,
+    'grade': 'B',
+    'city': 'Los Angeles'
+}
 
-# Print the updated dictionary
-print(my_dict)
+student3 = {
+    'name': 'Bob',
+    'age': 19,
+    'grade': 'A',
+    'city': 'Chicago'
+}
+
+# Add the student dictionaries to the list
+students.append(student1)
+students.append(student2)
+students.append(student3)
+
+# Access and print student information
+for student in students:
+    print("Name:", student['name'])
+    print("Age:", student['age'])
+    print("Grade:", student['grade'])
+    print("City:", student['city'])
+    print()  # Add a newline for separation
 
 
 
