@@ -1,3 +1,6 @@
+
+https://catalog.us-east-1.prod.workshops.aws/workshops/f560a788-af64-4e5a-a02c-a6c88516ab02/en-US/horizontallab/timeseries/autopilot
+
 # Create a list to store multiple student dictionaries
 students = []
 
