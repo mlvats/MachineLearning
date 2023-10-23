@@ -1,3 +1,18 @@
+{
+  "file_path": "path/to/training_data.csv",
+  "model_name": "your_model_name",
+  "feature_columns": ["feature_1", "feature_2", "feature_3"],
+  "target_column": "target"
+}
+
+{
+  "file_path": "path/to/prediction_data.csv",
+  "model_name": "your_model_name",
+  "feature_columns": ["feature_1", "feature_2", "feature_3"]
+}
+
+----
+
 import pandas as pd
 from sklearn.ensemble import RandomForestRegressor
 from flask import Flask, request, jsonify
