@@ -1,365 +1,82 @@
-# Convert minutes to 'HH:MM' format for the scatter plot
-actual_times_hhmm = [f"{int(minutes/60):02d}:{minutes%60:02d}" for minutes in actual_times]
-predicted_times_hhmm = [f"{int(minutes/60):02d}:{minutes%60:02d}" for minutes in predicted_times]
-
-import numpy as np
-
-# Sample data for actual delivery times in minutes
-actual_times = np.array([600, 660, 720, 780, 840, 900])
-
-------------------
-# Create a scatter plot
-plt.figure(figsize=(10, 6))
-plt.scatter(actual_times_hhmm, predicted_time_hhmm, label='Actual vs. Predicted', color='blue')
-plt.xlabel('Actual Delivery Time (HH:MM)')
-plt.ylabel('Predicted Delivery Time (HH:MM)')
-plt.title('Actual vs. Predicted Delivery Times')
-
-# Fit regression lines
-actual_fit = np.polyfit(actual_times, actual_times, 1)
-predicted_fit = np.polyfit(actual_times, predicted_times, 1)
-
-# Plot regression lines
-plt.plot(actual_times, np.polyval(actual_fit, actual_times), color='green', label='Actual Regression Line')
-plt.plot(actual_times, np.polyval(predicted_fit, actual_times), color='red', label='Predicted Regression Line')
-
-plt.legend()
-plt.grid(True)
-
-# Show the plot
-plt.show()
-
-
 import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
 from sklearn.ensemble import RandomForestRegressor
-from datetime import datetime, timedelta
-
-# Sample data
-data = {
-    'DayOfWeek': ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-    'FileType': ['delta', 'delta', 'delta', 'delta', 'delta', 'full', 'full'],
-    'DeliveryTime': ['10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00']
-}
-
-df = pd.DataFrame(data)
-
-# Encode categorical features
-df = pd.get_dummies(df, columns=['DayOfWeek', 'FileType'], drop_first=True)
-
-# Convert the 'DeliveryTime' column to time in minutes
-df['DeliveryTime'] = df['DeliveryTime'].apply(lambda x: int(x.split(':')[0]) * 60 + int(x.split(':')[1]))
-
-# Split data into features and target
-X = df.drop('DeliveryTime', axis=1)
-y = df['DeliveryTime']
-
-# Create and train a random forest regression model
-model = RandomForestRegressor(random_state=42)
-model.fit(X, y)
-
-# Define all possible columns (DayOfWeek_* and FileType_*)
-all_columns = [
-    'DayOfWeek_Monday', 'DayOfWeek_Tuesday', 'DayOfWeek_Wednesday',
-    'DayOfWeek_Thursday', 'DayOfWeek_Friday', 'DayOfWeek_Saturday', 'DayOfWeek_Sunday',
-    'FileType_delta', 'FileType_full'
-]
-
-# Create a DataFrame with all columns initialized to 0
-input_data = pd.DataFrame(0, index=np.arange(1), columns=all_columns)
-
-# Set the specified day of the week and file type to 1
-input_data['DayOfWeek_Monday'] = 1
-input_data['FileType_delta'] = 1
-
-# Make a prediction
-predicted_delivery_time_minutes = model.predict(input_data)[0]
-
-# Calculate the estimated delivery time
-current_time = datetime.now()
-estimated_time = current_time + timedelta(minutes=int(predicted_delivery_time_minutes))
-
-# Prepare the data for plotting
-actual_times = df['DeliveryTime']
-predicted_times = [int(predicted_delivery_time_minutes)]
-
-# Convert minutes to 'HH:MM' format
-actual_times_hhmm = [f"{int(minutes/60):02d}:{minutes%60:02d}" for minutes in actual_times]
-predicted_time_hhmm = f"{int(predicted_delivery_time_minutes/60):02d}:{int(predicted_delivery_time_minutes)%60:02d}"
-
-# Create a scatter plot
-plt.figure(figsize=(10, 6))
-plt.scatter(actual_times_hhmm, predicted_time_hhmm, label='Actual vs. Predicted', color='blue')
-plt.xlabel('Actual Delivery Time (HH:MM)')
-plt.ylabel('Predicted Delivery Time (HH:MM)')
-plt.title('Actual vs. Predicted Delivery Times')
-plt.legend()
-plt.grid(True)
-
-# Show the plot
-plt.show()
-
-------------------
-****
-# Define all possible columns (DayOfWeek_* and FileType_*)
-all_columns = [
-    'DayOfWeek_Monday', 'DayOfWeek_Tuesday', 'DayOfWeek_Wednesday',
-    'DayOfWeek_Thursday', 'DayOfWeek_Friday', 'DayOfWeek_Saturday', 'DayOfWeek_Sunday',
-    'FileType_delta', 'FileType_full'
-]
-------
-
-# Predict the next delivery time
-def predict_next_delivery(model, day_of_week, file_type):
-    # Create a DataFrame with all columns initialized to 0
-    input_data = pd.DataFrame(0, index=[0], columns=all_columns)
-    
-    # Set the specified day of the week and file type to 1
-    input_data[f'DayOfWeek_{day_of_week}'] = 1
-    input_data[f'FileType_{file_type}'] = 1
-    
-    predicted_delivery_time_minutes = model.predict(input_data)[0]
-    predicted_delivery_time = datetime(2023, 1, 1, 0, 0) + timedelta(minutes=int(predicted_delivery_time_minutes))
-    return predicted_delivery_time.strftime('%H:%M')
-
-# Example prediction for next delivery
-next_delivery = predict_next_delivery(model, 'Monday', 'delta')
-print(f"Predicted next delivery time: {next_delivery}")
------------------------
-import pandas as pd
-from sklearn.model_selection import train_test_split
-from sklearn.ensemble import RandomForestRegressor
-from sklearn.metrics import mean_squared_error, r2_score
-from datetime import datetime, timedelta
-
-# Sample data
-data = {
-    'DayOfWeek': ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-    'FileType': ['delta', 'delta', 'delta', 'delta', 'delta', 'full', 'full'],
-    'DeliveryTime': ['10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00']
-}
-
-df = pd.DataFrame(data)
-
-# Encode categorical features
-df = pd.get_dummies(df, columns=['DayOfWeek', 'FileType'], drop_first=True)
-
-# Convert the 'DeliveryTime' column to time in minutes
-df['DeliveryTime'] = df['DeliveryTime'].apply(lambda x: int(x.split(':')[0]) * 60 + int(x.split(':')[1]))
-
-# Split data into features and target
-X = df.drop('DeliveryTime', axis=1)
-y = df['DeliveryTime']
-
-# Split data into training and testing sets
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-
-# Create and train a random forest regression model
-model = RandomForestRegressor(random_state=42)
-model.fit(X_train, y_train)
-
-# Make predictions
-y_pred = model.predict(X_test)
-
-# Evaluate the model
-mse = mean_squared_error(y_test, y_pred)
-r2 = r2_score(y_test, y_pred)
-
-print(f"Mean Squared Error: {mse}")
-print(f"R-squared (R2) Score: {r2}")
-
-# Predict the next delivery time
-def predict_next_delivery(model, day_of_week, file_type):
-    input_data = pd.DataFrame({
-        'DayOfWeek_' + day_of_week: [1],
-        'FileType_' + file_type: [1]
-    })
-    predicted_delivery_time_minutes = model.predict(input_data)[0]
-    predicted_delivery_time = datetime(2023, 1, 1, 0, 0) + timedelta(minutes=int(predicted_delivery_time_minutes))
-    return predicted_delivery_time.strftime('%H:%M')
-
-# Example prediction for next delivery
-next_delivery = predict_next_delivery(model, 'Monday', 'delta')
-print(f"Predicted next delivery time: {next_delivery}")
-
-
-
------
-import pandas as pd
-from sklearn.model_selection import train_test_split
-from sklearn.ensemble import RandomForestRegressor
-from sklearn.metrics import mean_squared_error, r2_score
-
-# Sample data
-data = {
-    'DayOfWeek': ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-    'FileType': ['delta', 'delta', 'delta', 'delta', 'delta', 'full', 'full'],
-    'DeliveryTime': [10, 11, 12, 13, 14, 15, 16]  # Sample delivery times in hours (24-hour format)
-}
-
-df = pd.DataFrame(data)
-
-# Encode categorical features
-df = pd.get_dummies(df, columns=['DayOfWeek', 'FileType'], drop_first=True)
-
-# Split data into features and target
-X = df.drop('DeliveryTime', axis=1)
-y = df['DeliveryTime']
-
-# Split data into training and testing sets
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-
-# Create and train a random forest regression model
-model = RandomForestRegressor(random_state=42)
-model.fit(X_train, y_train)
-
-# Make predictions
-y_pred = model.predict(X_test)
-
-# Evaluate the model
-mse = mean_squared_error(y_test, y_pred)
-r2 = r2_score(y_test, y_pred)
-
-print(f"Mean Squared Error: {mse}")
-print(f"R-squared (R2) Score: {r2}")
-
-
--------------------------------------
-import pandas as pd
-from statsmodels.tsa.arima_model import ARIMA
-
-# Load the data
-data = pd.read_csv('delivery_data.csv')
-
-# Preprocess the data
-data['date'] = pd.to_datetime(data['date'])
-data['ds'] = data['date']
-data['y'] = data['delivery_time']
-
-# Split the data into training and testing sets
-train_data = data[data['date'] < '2023-10-26']
-test_data = data[data['date'] >= '2023-10-26']
-
-# Create an ARIMA model
-model = ARIMA(train_data['y'], order=(1, 1, 1))
-
-# Train the model
-model.fit()
-
-# Make a prediction
-forecast = model.predict(start=test_data['date'][0], end=test_data['date'][0])
-
-# Get the predicted delivery time
-predicted_delivery_time = forecast[0]
-
-# Print the predicted delivery time
-print('Predicted delivery time:', predicted_delivery_time)
--------
-
-import pandas as pd
-from sklearn.linear_model import LinearRegression
-
-# Load the data
-data = pd.read_csv('delivery_data.csv')
-
-# Preprocess the data
-data['date'] = pd.to_datetime(data['date'])
-data['ds'] = data['date']
-data['y'] = data['delivery_time']
-
-# Split the data into training and testing sets
-train_data = data[data['date'] < '2023-10-26']
-test_data = data[data['date'] >= '2023-10-26']
-
-# Create a linear regression model
-model = LinearRegression()
-
-# Train the model
-model.fit(train_data['ds'], train_data['y'])
-
-# Make a prediction
-forecast = model.predict(test_data['ds'])
-
-# Get the predicted delivery time
-predicted_delivery_time = forecast[0]
-
-# Print the predicted delivery time
-print('Predicted delivery time:', predicted_delivery_time)
-
-import pandas as pd
-from sklearn.linear_model import LinearRegression
-
-# Load the data
-data = pd.read_csv('delivery_data.csv')
-
-# Preprocess the data
-data['date'] = pd.to_datetime(data['date'])
-data['ds'] = data['date']
-data['y'] = data['delivery_time']
-
-# Split the data into training and testing sets
-train_data = data[data['date'] < '2023-10-26']
-test_data = data[data['date'] >= '2023-10-26']
-
-# Create a linear regression model
-model = LinearRegression()
-
-# Train the model
-model.fit(train_data['ds'], train_data['y'])
-
-# Make a prediction
-forecast = model.predict(test_data['ds'])
-
-# Get the predicted delivery time
-predicted_delivery_time = forecast[0]
-
-# Print the predicted delivery time
-print('Predicted delivery time:', predicted_delivery_time)
-
-date,delivery_time
-2023-10-21,12:00:00
-2023-10-22,12:00:00
-2023-10-23,12:00:00
-2023-10-24,09:00:00
-2023-10-25,09:00:00
-
-
------------------------
-import pandas as pd
-from sklearn.model_selection import train_test_split
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import accuracy_score
-
-# Sample data
-data = {
-    'DayOfWeek': ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-    'FileType': ['delta', 'delta', 'delta', 'delta', 'delta', 'full', 'full'],
-    'Delivery': [0, 0, 0, 0, 0, 1, 1]  # 1 if the vendor delivers, 0 if not
-}
-
-df = pd.DataFrame(data)
-
-# Encode categorical features
-df = pd.get_dummies(df, columns=['DayOfWeek'], drop_first=True)
-
-# Split data into features and target
-X = df.drop('Delivery', axis=1)
-y = df['Delivery']
-
-# Split data into training and testing sets
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-
-# Create and train a random forest classifier
-model = RandomForestClassifier(random_state=42)
-model.fit(X_train, y_train)
-
-# Make predictions
-y_pred = model.predict(X_test)
-
-# Evaluate the model
-accuracy = accuracy_score(y_test, y_pred)
-print(f"Accuracy: {accuracy}")
+from flask import Flask, request, jsonify
+import os
+
+# Initialize Flask app
+app = Flask(__name__)
+
+# Define a dictionary to store trained models
+models = {}
+
+# Function to train a model
+def train_model(file_path, model_name, feature_columns, target_column):
+    try:
+        if not os.path.exists(file_path):
+            return "File not found", 404
+
+        # Load and preprocess your training data from the file
+        data = pd.read_csv(file_path)  # You can adjust this based on your data format
+
+        # Ensure the provided columns exist in the data
+        if not all(col in data.columns for col in feature_columns + [target_column]):
+            return "Invalid column name(s)", 400
+
+        X = data[feature_columns]
+        y = data[target_column]
+
+        # Train a machine learning model (Random Forest Regressor in this example)
+        model = RandomForestRegressor()
+        model.fit(X, y)
+
+        # Store the trained model in the dictionary with the provided model_name
+        models[model_name] = model
+
+        return "Model trained successfully"
+    except Exception as e:
+        return str(e), 400
+
+# Function to make predictions using a trained model
+def predict(file_path, model_name, feature_columns):
+    if model_name not in models:
+        return "Model not found", 404
+
+    try:
+        if not os.path.exists(file_path):
+            return "File not found", 404
+
+        # Load and preprocess your prediction data from the file
+        prediction_data = pd.read_csv(file_path)  # You can adjust this based on your data format
+
+        # Ensure the provided columns exist in the data
+        if not all(col in prediction_data.columns for col in feature_columns):
+            return "Invalid column name(s)", 400
+
+        # Make predictions using the specified model
+        model = models[model_name]
+        predictions = model.predict(prediction_data[feature_columns])
+
+        return jsonify({"predictions": predictions.tolist()})
+    except Exception as e:
+        return str(e), 400
+
+# API endpoint for training the model
+@app.route('/train/<model_name>', methods=['POST'])
+def train_endpoint(model_name):
+    file_path = request.form.get('file_path')
+    feature_columns = request.form.getlist('feature_columns')
+    target_column = request.form.get('target_column')
+    return train_model(file_path, model_name, feature_columns, target_column)
+
+# API endpoint for making predictions
+@app.route('/predict/<model_name>', methods=['POST'])
+def predict_endpoint(model_name):
+    file_path = request.form.get('file_path')
+    feature_columns = request.form.getlist('feature_columns')
+    return predict(file_path, model_name, feature_columns)
+
+if __name__ == '__main__':
+    app.run(debug=True)
 
 
 ----------------------------
