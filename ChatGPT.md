@@ -1,3 +1,25 @@
+# Create a scatter plot
+plt.figure(figsize=(10, 6))
+plt.scatter(actual_times_hhmm, predicted_time_hhmm, label='Actual vs. Predicted', color='blue')
+plt.xlabel('Actual Delivery Time (HH:MM)')
+plt.ylabel('Predicted Delivery Time (HH:MM)')
+plt.title('Actual vs. Predicted Delivery Times')
+
+# Fit regression lines
+actual_fit = np.polyfit(actual_times, actual_times, 1)
+predicted_fit = np.polyfit(actual_times, predicted_times, 1)
+
+# Plot regression lines
+plt.plot(actual_times, np.polyval(actual_fit, actual_times), color='green', label='Actual Regression Line')
+plt.plot(actual_times, np.polyval(predicted_fit, actual_times), color='red', label='Predicted Regression Line')
+
+plt.legend()
+plt.grid(True)
+
+# Show the plot
+plt.show()
+
+
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
