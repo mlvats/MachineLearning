@@ -1,4 +1,35 @@
 import pandas as pd
+from statsmodels.tsa.arima_model import ARIMA
+
+# Load the data
+data = pd.read_csv('delivery_data.csv')
+
+# Preprocess the data
+data['date'] = pd.to_datetime(data['date'])
+data['ds'] = data['date']
+data['y'] = data['delivery_time']
+
+# Split the data into training and testing sets
+train_data = data[data['date'] < '2023-10-26']
+test_data = data[data['date'] >= '2023-10-26']
+
+# Create an ARIMA model
+model = ARIMA(train_data['y'], order=(1, 1, 1))
+
+# Train the model
+model.fit()
+
+# Make a prediction
+forecast = model.predict(start=test_data['date'][0], end=test_data['date'][0])
+
+# Get the predicted delivery time
+predicted_delivery_time = forecast[0]
+
+# Print the predicted delivery time
+print('Predicted delivery time:', predicted_delivery_time)
+-------
+
+import pandas as pd
 from sklearn.linear_model import LinearRegression
 
 # Load the data
