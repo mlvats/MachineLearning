@@ -1,3 +1,20 @@
+# Predict the next delivery time
+def predict_next_delivery(model, day_of_week, file_type):
+    # Create a DataFrame with all columns initialized to 0
+    input_data = pd.DataFrame(0, index=[0], columns=all_columns)
+    
+    # Set the specified day of the week and file type to 1
+    input_data[f'DayOfWeek_{day_of_week}'] = 1
+    input_data[f'FileType_{file_type}'] = 1
+    
+    predicted_delivery_time_minutes = model.predict(input_data)[0]
+    predicted_delivery_time = datetime(2023, 1, 1, 0, 0) + timedelta(minutes=int(predicted_delivery_time_minutes))
+    return predicted_delivery_time.strftime('%H:%M')
+
+# Example prediction for next delivery
+next_delivery = predict_next_delivery(model, 'Monday', 'delta')
+print(f"Predicted next delivery time: {next_delivery}")
+-----------------------
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestRegressor
