@@ -1,3 +1,13 @@
+# Convert minutes to 'HH:MM' format for the scatter plot
+actual_times_hhmm = [f"{int(minutes/60):02d}:{minutes%60:02d}" for minutes in actual_times]
+predicted_times_hhmm = [f"{int(minutes/60):02d}:{minutes%60:02d}" for minutes in predicted_times]
+
+import numpy as np
+
+# Sample data for actual delivery times in minutes
+actual_times = np.array([600, 660, 720, 780, 840, 900])
+
+------------------
 # Create a scatter plot
 plt.figure(figsize=(10, 6))
 plt.scatter(actual_times_hhmm, predicted_time_hhmm, label='Actual vs. Predicted', color='blue')
