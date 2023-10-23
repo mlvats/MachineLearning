@@ -1,3 +1,12 @@
+****
+# Define all possible columns (DayOfWeek_* and FileType_*)
+all_columns = [
+    'DayOfWeek_Monday', 'DayOfWeek_Tuesday', 'DayOfWeek_Wednesday',
+    'DayOfWeek_Thursday', 'DayOfWeek_Friday', 'DayOfWeek_Saturday', 'DayOfWeek_Sunday',
+    'FileType_delta', 'FileType_full'
+]
+------
+
 # Predict the next delivery time
 def predict_next_delivery(model, day_of_week, file_type):
     # Create a DataFrame with all columns initialized to 0
