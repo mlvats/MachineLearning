@@ -1,4 +1,44 @@
+import pandas as pd
+from sklearn.linear_model import LinearRegression
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import mean_squared_error, r2_score
+import numpy as np
 
+# Sample data
+data = {
+    'DeliveryDay': ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+    'FileType': ['full', 'delta', 'delta', 'delta', 'delta', 'full', 'full'],
+    'DeliveryTime': [2, 4, 3, 3, 4, 1, 1]  # Sample delivery times in hours
+}
+
+df = pd.DataFrame(data)
+
+# Encode categorical features
+df = pd.get_dummies(df, columns=['DeliveryDay', 'FileType'], drop_first=True)
+
+# Split data into features and target
+X = df.drop('DeliveryTime', axis=1)
+y = df['DeliveryTime']
+
+# Split data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Create and train a linear regression model
+model = LinearRegression()
+model.fit(X_train, y_train)
+
+# Make predictions
+y_pred = model.predict(X_test)
+
+# Evaluate the model
+mse = mean_squared_error(y_test, y_pred)
+r2 = r2_score(y_test, y_pred)
+
+print(f"Mean Squared Error: {mse}")
+print(f"R-squared (R2) Score: {r2}")
+
+
+----------------------------
 https://catalog.us-east-1.prod.workshops.aws/workshops/f560a788-af64-4e5a-a02c-a6c88516ab02/en-US/horizontallab/timeseries/autopilot
 
 # Create a list to store multiple student dictionaries
