@@ -1,41 +1,37 @@
 import pandas as pd
-from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import mean_squared_error, r2_score
-import numpy as np
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score
 
 # Sample data
 data = {
-    'DeliveryDay': ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-    'FileType': ['full', 'delta', 'delta', 'delta', 'delta', 'full', 'full'],
-    'DeliveryTime': [2, 4, 3, 3, 4, 1, 1]  # Sample delivery times in hours
+    'DayOfWeek': ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+    'FileType': ['delta', 'delta', 'delta', 'delta', 'delta', 'full', 'full'],
+    'Delivery': [0, 0, 0, 0, 0, 1, 1]  # 1 if the vendor delivers, 0 if not
 }
 
 df = pd.DataFrame(data)
 
 # Encode categorical features
-df = pd.get_dummies(df, columns=['DeliveryDay', 'FileType'], drop_first=True)
+df = pd.get_dummies(df, columns=['DayOfWeek'], drop_first=True)
 
 # Split data into features and target
-X = df.drop('DeliveryTime', axis=1)
-y = df['DeliveryTime']
+X = df.drop('Delivery', axis=1)
+y = df['Delivery']
 
 # Split data into training and testing sets
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-# Create and train a linear regression model
-model = LinearRegression()
+# Create and train a random forest classifier
+model = RandomForestClassifier(random_state=42)
 model.fit(X_train, y_train)
 
 # Make predictions
 y_pred = model.predict(X_test)
 
 # Evaluate the model
-mse = mean_squared_error(y_test, y_pred)
-r2 = r2_score(y_test, y_pred)
-
-print(f"Mean Squared Error: {mse}")
-print(f"R-squared (R2) Score: {r2}")
+accuracy = accuracy_score(y_test, y_pred)
+print(f"Accuracy: {accuracy}")
 
 
 ----------------------------
