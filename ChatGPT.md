@@ -1,3 +1,74 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.ensemble import RandomForestRegressor
+from datetime import datetime, timedelta
+
+# Sample data
+data = {
+    'DayOfWeek': ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+    'FileType': ['delta', 'delta', 'delta', 'delta', 'delta', 'full', 'full'],
+    'DeliveryTime': ['10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00']
+}
+
+df = pd.DataFrame(data)
+
+# Encode categorical features
+df = pd.get_dummies(df, columns=['DayOfWeek', 'FileType'], drop_first=True)
+
+# Convert the 'DeliveryTime' column to time in minutes
+df['DeliveryTime'] = df['DeliveryTime'].apply(lambda x: int(x.split(':')[0]) * 60 + int(x.split(':')[1]))
+
+# Split data into features and target
+X = df.drop('DeliveryTime', axis=1)
+y = df['DeliveryTime']
+
+# Create and train a random forest regression model
+model = RandomForestRegressor(random_state=42)
+model.fit(X, y)
+
+# Define all possible columns (DayOfWeek_* and FileType_*)
+all_columns = [
+    'DayOfWeek_Monday', 'DayOfWeek_Tuesday', 'DayOfWeek_Wednesday',
+    'DayOfWeek_Thursday', 'DayOfWeek_Friday', 'DayOfWeek_Saturday', 'DayOfWeek_Sunday',
+    'FileType_delta', 'FileType_full'
+]
+
+# Create a DataFrame with all columns initialized to 0
+input_data = pd.DataFrame(0, index=np.arange(1), columns=all_columns)
+
+# Set the specified day of the week and file type to 1
+input_data['DayOfWeek_Monday'] = 1
+input_data['FileType_delta'] = 1
+
+# Make a prediction
+predicted_delivery_time_minutes = model.predict(input_data)[0]
+
+# Calculate the estimated delivery time
+current_time = datetime.now()
+estimated_time = current_time + timedelta(minutes=int(predicted_delivery_time_minutes))
+
+# Prepare the data for plotting
+actual_times = df['DeliveryTime']
+predicted_times = [int(predicted_delivery_time_minutes)]
+
+# Convert minutes to 'HH:MM' format
+actual_times_hhmm = [f"{int(minutes/60):02d}:{minutes%60:02d}" for minutes in actual_times]
+predicted_time_hhmm = f"{int(predicted_delivery_time_minutes/60):02d}:{int(predicted_delivery_time_minutes)%60:02d}"
+
+# Create a scatter plot
+plt.figure(figsize=(10, 6))
+plt.scatter(actual_times_hhmm, predicted_time_hhmm, label='Actual vs. Predicted', color='blue')
+plt.xlabel('Actual Delivery Time (HH:MM)')
+plt.ylabel('Predicted Delivery Time (HH:MM)')
+plt.title('Actual vs. Predicted Delivery Times')
+plt.legend()
+plt.grid(True)
+
+# Show the plot
+plt.show()
+
+------------------
 ****
 # Define all possible columns (DayOfWeek_* and FileType_*)
 all_columns = [
