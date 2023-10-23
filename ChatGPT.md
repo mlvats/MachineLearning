@@ -2,6 +2,65 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_squared_error, r2_score
+from datetime import datetime, timedelta
+
+# Sample data
+data = {
+    'DayOfWeek': ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+    'FileType': ['delta', 'delta', 'delta', 'delta', 'delta', 'full', 'full'],
+    'DeliveryTime': ['10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00']
+}
+
+df = pd.DataFrame(data)
+
+# Encode categorical features
+df = pd.get_dummies(df, columns=['DayOfWeek', 'FileType'], drop_first=True)
+
+# Convert the 'DeliveryTime' column to time in minutes
+df['DeliveryTime'] = df['DeliveryTime'].apply(lambda x: int(x.split(':')[0]) * 60 + int(x.split(':')[1]))
+
+# Split data into features and target
+X = df.drop('DeliveryTime', axis=1)
+y = df['DeliveryTime']
+
+# Split data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Create and train a random forest regression model
+model = RandomForestRegressor(random_state=42)
+model.fit(X_train, y_train)
+
+# Make predictions
+y_pred = model.predict(X_test)
+
+# Evaluate the model
+mse = mean_squared_error(y_test, y_pred)
+r2 = r2_score(y_test, y_pred)
+
+print(f"Mean Squared Error: {mse}")
+print(f"R-squared (R2) Score: {r2}")
+
+# Predict the next delivery time
+def predict_next_delivery(model, day_of_week, file_type):
+    input_data = pd.DataFrame({
+        'DayOfWeek_' + day_of_week: [1],
+        'FileType_' + file_type: [1]
+    })
+    predicted_delivery_time_minutes = model.predict(input_data)[0]
+    predicted_delivery_time = datetime(2023, 1, 1, 0, 0) + timedelta(minutes=int(predicted_delivery_time_minutes))
+    return predicted_delivery_time.strftime('%H:%M')
+
+# Example prediction for next delivery
+next_delivery = predict_next_delivery(model, 'Monday', 'delta')
+print(f"Predicted next delivery time: {next_delivery}")
+
+
+
+-----
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.metrics import mean_squared_error, r2_score
 
 # Sample data
 data = {
