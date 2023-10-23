@@ -1,5 +1,5 @@
 import pandas as pd
-from fbprophet import Prophet
+from statsmodels.tsa.arima_model import ARIMA
 
 # Load the data
 data = pd.read_csv('delivery_data.csv')
@@ -9,21 +9,25 @@ data['date'] = pd.to_datetime(data['date'])
 data['ds'] = data['date']
 data['y'] = data['delivery_time']
 
-# Create a Prophet model
-model = Prophet()
+# Split the data into training and testing sets
+train_data = data[data['date'] < '2023-10-26']
+test_data = data[data['date'] >= '2023-10-26']
+
+# Create an ARIMA model
+model = ARIMA(train_data['y'], order=(1, 1, 1))
 
 # Train the model
-model.fit(data)
+model.fit()
 
 # Make a prediction
-future = model.make_future_dataframe(periods=1)
-forecast = model.predict(future)
+forecast = model.predict(start=test_data['date'][0], end=test_data['date'][0])
 
 # Get the predicted delivery time
-predicted_delivery_time = forecast['yhat'][0]
+predicted_delivery_time = forecast[0]
 
 # Print the predicted delivery time
 print('Predicted delivery time:', predicted_delivery_time)
+
 
 -----------------------
 import pandas as pd
