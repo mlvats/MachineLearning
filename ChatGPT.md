@@ -1,4 +1,32 @@
 import pandas as pd
+from fbprophet import Prophet
+
+# Load the data
+data = pd.read_csv('delivery_data.csv')
+
+# Preprocess the data
+data['date'] = pd.to_datetime(data['date'])
+data['ds'] = data['date']
+data['y'] = data['delivery_time']
+
+# Create a Prophet model
+model = Prophet()
+
+# Train the model
+model.fit(data)
+
+# Make a prediction
+future = model.make_future_dataframe(periods=1)
+forecast = model.predict(future)
+
+# Get the predicted delivery time
+predicted_delivery_time = forecast['yhat'][0]
+
+# Print the predicted delivery time
+print('Predicted delivery time:', predicted_delivery_time)
+
+-----------------------
+import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
