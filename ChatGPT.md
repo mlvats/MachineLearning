@@ -1,3 +1,31 @@
+training_data = [
+    "Stock markets are influenced by economic indicators.",
+    "Investors often analyze company financial reports.",
+    "Diversifying your investment portfolio is important.",
+    "The central bank raised interest rates to control inflation.",
+    "Equity represents ownership in a company.",
+    "Risk management is crucial for successful investing.",
+    "Bonds provide a fixed-income investment option.",
+    "The stock market can be volatile during economic downturns.",
+    "Dividends are a share of a company's profits distributed to shareholders.",
+    "Market trends impact trading strategies.",
+    "Asset allocation is a key aspect of portfolio management.",
+    "Hedging can be used to mitigate investment risk.",
+]
+# Install gensim using: pip install gensim
+from gensim.models import Word2Vec
+from nltk.tokenize import word_tokenize  # Assuming you have NLTK installed: pip install nltk
+
+# Tokenize sentences
+tokenized_data = [word_tokenize(sentence.lower()) for sentence in training_data]
+
+# Train Word2Vec model
+model = Word2Vec(sentences=tokenized_data, vector_size=100, window=5, min_count=1, workers=4)
+
+# Save or use the trained model for further tasks
+model.save("financial_word2vec_model")
+
+-------------------
 Let's create a simple example using the gensim library, which includes an implementation of Word2Vec. In this example, we'll use a small dataset of security-related terms to demonstrate how Word2Vec can find similar terms.
 
 n this example, we create a small dataset of security-related terms and use Word2Vec to train a model. The find_similar_terms function allows us to input a term and find the most similar terms according to the trained model.
