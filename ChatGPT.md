@@ -1,17 +1,26 @@
-from gensim.models import Word2Vec
+import gensim.models as Word2Vec
 
-# Create a list of dictionary words
-dictionary_words = ["cat", "dog", "animal", "furry", "pet", "mammal", "vertebrate"]
+# Create a list of words
+words = ["apple", "orange", "banana", "grape", "strawberry", "car", "truck", "bus", "bicycle", "motorcycle"]
 
 # Train the Word2Vec model
-word2vec_model = Word2Vec(dictionary_words, min_count=1)
+model = Word2Vec(words, min_count=1)
 
-# Find similar words to "dog"
-similar_words = word2vec_model.wv.most_similar("dog", topn=5)
+# Find the most similar words to "apple"
+similar_words = model.wv.most_similar("apple", topn=5)
+
+# Find the most similar words to "car"
+similar_words_car = model.wv.most_similar("car", topn=5)
 
 # Print the results
+print("Similar words to 'apple':")
 for word, similarity in similar_words:
-  print(word, similarity)
+    print(word, similarity)
+
+print("\nSimilar words to 'car':")
+for word, similarity in similar_words_car:
+    print(word, similarity)
+
 ---------------------
 
 training_data = [
