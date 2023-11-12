@@ -1,3 +1,19 @@
+from gensim.models import Word2Vec
+
+# Create a list of dictionary words
+dictionary_words = ["cat", "dog", "animal", "furry", "pet", "mammal", "vertebrate"]
+
+# Train the Word2Vec model
+word2vec_model = Word2Vec(dictionary_words, min_count=1)
+
+# Find similar words to "dog"
+similar_words = word2vec_model.wv.most_similar("dog", topn=5)
+
+# Print the results
+for word, similarity in similar_words:
+  print(word, similarity)
+---------------------
+
 training_data = [
     "Stock markets are influenced by economic indicators.",
     "Investors often analyze company financial reports.",
