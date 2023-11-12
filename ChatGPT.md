@@ -1,3 +1,39 @@
+# Install gensim using: pip install gensim
+
+from gensim.models import Word2Vec
+
+# Sample security-related terms
+security_data = [
+    "stock",
+    "bond",
+    "equity",
+    "portfolio",
+    "dividend",
+    "security",
+    "market",
+    "trading",
+    "risk",
+    "yield",
+]
+
+# Training the Word2Vec model
+model = Word2Vec(sentences=[security_data], vector_size=10, window=5, min_count=1, workers=4)
+
+# Function to find similar terms
+def find_similar_terms(word, topn=3):
+    similar_terms = model.wv.most_similar(word, topn=topn)
+    return similar_terms
+
+# Example usage
+input_term = "equity"
+similar_terms = find_similar_terms(input_term)
+
+# Display the results
+print(f"Similar terms to '{input_term}':")
+for term, similarity in similar_terms:
+    print(f"{term}: {similarity}")
+
+----------------------------
 {
   "file_path": "path/to/training_data.csv",
   "model_name": "your_model_name",
