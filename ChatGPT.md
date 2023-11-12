@@ -1,3 +1,11 @@
+Let's create a simple example using the gensim library, which includes an implementation of Word2Vec. In this example, we'll use a small dataset of security-related terms to demonstrate how Word2Vec can find similar terms.
+
+n this example, we create a small dataset of security-related terms and use Word2Vec to train a model. The find_similar_terms function allows us to input a term and find the most similar terms according to the trained model.
+
+You can run this code and experiment with different terms from the security_data list to see how Word2Vec captures semantic relationships between words.
+
+When presenting this to a non-technical audience, you can use this example to explain how the model learns to represent words in a way that similar words are closer together in the vector space. This concept is then applied to mapping fields between Refinitiv and Bloomberg datasets in a similar manner.
+
 # Install gensim using: pip install gensim
 
 from gensim.models import Word2Vec
