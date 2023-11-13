@@ -1,3 +1,47 @@
+from gensim.models import Word2Vec
+from nltk.tokenize import word_tokenize  # Assuming you have NLTK installed: pip install nltk
+
+# Financial training data
+financial_training_data = [
+    "The stock market experienced a bull run this quarter.",
+    "Investors diversified their portfolios to manage risk.",
+    "Interest rates play a crucial role in determining bond prices.",
+    "The central bank announced a monetary policy change to control inflation.",
+    "Equity represents ownership in a company, often in the form of stocks.",
+    "Investment in real estate can provide a hedge against market volatility.",
+    "The company reported robust quarterly earnings, leading to a surge in stock prices.",
+    "Derivatives are financial instruments whose value is derived from an underlying asset.",
+    "A well-diversified portfolio includes a mix of stocks, bonds, and other assets.",
+    "Traders use technical analysis to make informed decisions about market trends.",
+    "Dividends are a distribution of a portion of a company's profits to its shareholders.",
+    "The options market allows investors to hedge against potential losses.",
+    "Market indices, such as the S&P 500, track the performance of a group of stocks.",
+]
+
+# Tokenize sentences
+tokenized_data = [word_tokenize(sentence.lower()) for sentence in financial_training_data]
+
+# Train Word2Vec model
+model = Word2Vec(sentences=tokenized_data, vector_size=100, window=5, min_count=1, workers=4)
+
+# Save or use the trained model for further tasks
+model.save("financial_word2vec_model")
+
+# Calculate similarity scores
+def calculate_similarity(word1, word2):
+    similarity_score = model.wv.similarity(word1, word2)
+    return similarity_score
+
+# Example usage
+word1 = "market"
+word2 = "stocks"
+similarity_score = calculate_similarity(word1, word2)
+
+# Display the result
+print(f"Similarity between '{word1}' and '{word2}': {similarity_score}")
+
+
+
 import gensim.models as Word2Vec
 
 # Create a list of words
