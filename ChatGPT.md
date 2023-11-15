@@ -1,8 +1,31 @@
+1. Univariate Anomaly Detection:
+Problem Description: Detecting anomalies in a single feature or variable.
+Example Use Case: Identifying unusual values in a time-series dataset, such as spikes or dips.
+2. Multivariate Anomaly Detection:
+Problem Description: Detecting anomalies based on multiple features or variables.
+Example Use Case: Identifying unusual combinations of values across different metrics in a system.
+3. Time Series Anomaly Detection:
+Problem Description: Detecting anomalies in sequential data points over time.
+Example Use Case: Monitoring server logs for irregular patterns or unexpected trends.
+
+
+Event Sequence Anomaly Detection  (Contextual Anomaly Detection:)
+
+Problem Description: Identifying individual data points that are anomalous.
+Example Use Case: Detecting fraudulent transactions in financial data.
+
+Time Series Forecasting Models (ARIMA, LSTM): Predicting future values based on historical patterns.
+
+
+-------------------
 Yes. Here is an explanation on how a machine learning model can be used to identify duplicate field names and identify and correct inconsistencies in field names:
 
 Identify duplicate field names
 
 To identify duplicate field names, the model can be trained on a dataset of field names, where each field name is assigned a unique identifier. The model can then be used to compare new field names to the field names in the dataset. If the model finds a new field name that is identical to a field name in the dataset, the model can flag the new field name as a duplicate.
+
+
+
 
 Here is an example:
 
