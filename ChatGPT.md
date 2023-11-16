@@ -1,3 +1,21 @@
+import pandas as pd
+import json
+
+# Create a DataFrame
+df = pd.DataFrame({'name': ['Alice', 'Bob', 'Charlie'], 'age': [30, 25, 22]})
+
+# Convert the DataFrame to a dictionary
+df_dict = df.to_dict(orient='records')
+
+# Convert the dictionary to a JSON string
+json_string = json.dumps(df_dict)
+
+# Write the JSON string to a file
+with open('data.json', 'w') as f:
+    f.write(json_string)
+
+
+
 SELECT
     unnest(array[1, 2, 3]) AS parsed_value;
 
