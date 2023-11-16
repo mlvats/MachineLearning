@@ -4,6 +4,15 @@ SELECT
   PARSE_STRING(SUBSTRING_INDEX(data, ', ', 2), '(', ')') AS email_address
 FROM YOUR_TABLE;
 
+SELECT
+    -- Extracting the name
+    TRIM(BOTH '"' FROM SPLIT_PART(your_column, '(', 1)) AS Name,
+
+    -- Extracting the email
+    TRIM(BOTH ')' FROM SPLIT_PART(your_column, '(', 2)) AS Email
+FROM
+    your_table;
+
 
 
 1. Univariate Anomaly Detection:
