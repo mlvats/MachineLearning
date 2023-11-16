@@ -1,4 +1,7 @@
 SELECT
+    unnest(array[1, 2, 3]) AS parsed_value;
+
+SELECT
   SUBSTRING_INDEX(data, ', ', 1) AS last_name,
   SUBSTRING_INDEX(SUBSTRING_INDEX(data, ', ', 2), '(', 1) AS first_name,
   PARSE_STRING(SUBSTRING_INDEX(data, ', ', 2), '(', ')') AS email_address
