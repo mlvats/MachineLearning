@@ -1,3 +1,11 @@
+SELECT
+  SUBSTRING_INDEX(data, ', ', 1) AS last_name,
+  SUBSTRING_INDEX(SUBSTRING_INDEX(data, ', ', 2), '(', 1) AS first_name,
+  PARSE_STRING(SUBSTRING_INDEX(data, ', ', 2), '(', ')') AS email_address
+FROM YOUR_TABLE;
+
+
+
 1. Univariate Anomaly Detection:
 Problem Description: Detecting anomalies in a single feature or variable.
 Example Use Case: Identifying unusual values in a time-series dataset, such as spikes or dips.
