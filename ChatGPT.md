@@ -41,3 +41,8 @@ Now, you can invoke your Lambda function using the "prod" alias:
 aws lambda invoke --function-name MyLambdaFunction:prod --payload '{"key1": "value1", "key2": "value2"}' output.txt
 
 
+Alias Instead of Version:
+While versions are a way to reference specific snapshots, using aliases is often recommended for managing invocations in a more flexible manner. Aliases can be updated to point to different versions, allowing you to promote changes through different environments without modifying the invoking code.
+
+Keep in mind that using aliases for version management is often more flexible and recommended in real-world scenarios.
+
