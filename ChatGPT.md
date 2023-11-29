@@ -1,4 +1,5 @@
-
+Overview
+This document outlines the architecture designed for storing and analyzing complex data stored in a DynamoDB table. The architecture involves extracting data from DynamoDB, transforming it into a normalized format, and then loading it into Amazon S3 for analytics using Amazon Athena.
 
 
 Flattening data with a partition key in the context of DynamoDB and AWS architecture is typically referred to as "Denormalization" or "Flattening and Partitioning".
