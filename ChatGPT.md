@@ -2,6 +2,28 @@ Senior Application Engineer - AI/ML Model Governance
 
 About Us:
 
+We are seeking a Senior Application Engineer with robust AWS experience to assist Vanguard's Chief Data and Analytics Office (CDAO) - Enterprise Data Office (EDO) team in building and enhancing the AI/ML models governance application for all models at Vanguard. This role involves leveraging a JavaScript, React, Python Lambda, and DynamoDB tech stack.
+
+Key Requirements:
+
+Hands-on knowledge of Vanguard’s AWS services, with experience and awareness of features such as Lambda, DynamoDB, S3, Glue, IAM, CloudFormation, and other AWS services.
+Strong proficiency in Python coding and development skills, including unit testing and end-to-end testing.
+Proficient in JavaScript and React UI development.
+Experience in API development.
+
+What You'll Learn:
+
+Gain expertise in the latest tools and practices for AI/ML/LLM model governance.
+Join a team of passionate experts and thought leaders in the AI/ML model Ops and governance space.
+Acquire experience in scaling and rolling out an application that will be leveraged across multiple LOBs.
+Mentor junior developers and contribute to shaping the technical culture of the team.
+
+
+
+Senior Application Engineer - AI/ML Model Governance
+
+About Us:
+
 Join our dynamic team at Vanguard's Chief Data and Analytics Office (CDAO) - Enterprise Data Office (EDO) and play a pivotal role in building and enhancing our AI/ML models governance application. As a Senior Application Engineer, you will contribute to shaping the technical culture of our team and mentor junior developers.
 
 Key Responsibilities:
