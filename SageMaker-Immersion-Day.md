@@ -2,6 +2,10 @@
 
 Workshop Link -  https://catalog.us-east-1.prod.workshops.aws/workshops/63069e26-921c-4ce1-9cc7-dd882ff62575/en-US
 
+Learning more about SageMaker 
+-  https://aws.amazon.com/blogs/machine-learning/part-1-how-natwest-group-built-a-scalable-secure-and-sustainable-mlops-platform/
+-  https://aws.amazon.com/sagemaker/pipelines/
+
 ![image](https://github.com/mlvats/MachineLearning/assets/32443900/66ea7f3d-5c96-4ec7-b171-5e38fe0f70cf)
 ---
 
@@ -55,10 +59,36 @@ Deugger is for Tesorflow (Neural Network ) or XGBoost jobs
 -  Airflow Workflows: SageMaker APIs to export configurations for creating and managing Airflow workflows.
 -  AWS Step Functions: Multi-step ML workflows in Python that orchestrate SageMaker infrastructure without having to provision your resources separately.
 
+## Three components improve the operational resilience and reproducibility of your ML workflows: 
+ - pipelines
+ - model registry, and
+ - projects.
 
+# SageMaker projects
+- SageMaker projects introduce MLOps templates that automatically provision the underlying resources needed to enable CI/CD capabilities for your ML development lifecycle.
+- The following screenshot shows how the three components of SageMaker Pipelines can work together in an example SageMaker project.
+![image](https://github.com/mlvats/MachineLearning/assets/32443900/d264f27c-917a-4d61-ba59-165b978ca65f)
+-----------------
+-----------------
+![image](https://github.com/mlvats/MachineLearning/assets/32443900/16da05df-510d-4040-b4bb-6bc1e32dbd9a)
 
+- The MLOps templates that are made available through SageMaker projects are provided via an AWS Service Catalog  portfolio that automatically gets imported when a user enables projects on the Studio domain.
+- Two repositories are added to AWS CodeCommit :
+- The first repository provides scaffolding code to create a multi-step model building pipeline including the following steps:
+     - data processing,
+     - model training,
+     - model evaluation, and
+     - conditional model registration based on accuracy.
+- As you can see in the pipeline.py file, this pipeline trains a linear regression model using the XGBoost algorithm on the well-known UCI Abalone dataset .
+- This repository also includes a build specification file , used by AWS CodePipeline  and AWS CodeBuild  to run the pipeline automatically.
+- The second repository contains code and configuration files for model deployment, as well as test scripts required to pass the quality gate.
+    - This repo also uses CodePipeline and CodeBuild, which run an AWS CloudFormation  template to create model endpoints for staging and production.
 
-
+- Two CodePipeline pipelines:
+    -   The ModelBuild pipeline automatically triggers and runs the pipeline from end to end whenever a new commit is made to the ModelBuild CodeCommit repository.
+    -   The ModelDeploy pipeline automatically triggers whenever a new model version is added to the model registry and the status is marked as Approved. Models that are registered with Pending or Rejected statuses aren’t deployed.
+ 
+    -   
 
 
 
