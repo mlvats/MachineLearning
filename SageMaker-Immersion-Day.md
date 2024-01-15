@@ -36,11 +36,24 @@ Deugger is for Tesorflow (Neural Network ) or XGBoost jobs
 -----------------------------------------------------------------------------------------------------------
 
 # Amazon SageMaker Pipelines 
+- You can automate the entire model build workflow, including data preparation, feature engineering, model training, model tuning, and model validation, and catalog it in the model registry.  
+- You can configure pipelines to run automatically at regular intervals or when certain events are triggered, or you can run them manually as needed.  
+- SageMaker Pipelines is a native workflow orchestration tool  for building ML pipelines that take advantage of direct Amazon SageMaker  integration.
+-   
 
+# SageMaker Workflows
+- As you scale your machine learning (ML) operations, you can use Amazon SageMaker fully managed workflow services to implement continuous integration and deployment (CI/CD) practices for your ML lifecycle.
+- For Kubernetes based architectures, you can install SageMaker Operators on your Kubernetes cluster to create SageMaker jobs natively using the Kubernetes API and command-line Kubernetes tools such as kubectl.
+- 
 
+##  SageMaker offers the following workflow technologies:
+- Amazon SageMaker Model Building Pipelines: Tool for building and managing ML pipelines. 
+- Kubernetes Orchestration: SageMaker custom operators for your Kubernetes cluster and components for Kubeflow Pipelines. 
+- SageMaker Notebook Jobs: On demand or scheduled non-interactive batch runs of your Jupyter notebook.
 
-
-
+### You can also leverage other services that integrate with SageMaker to build your workflow. Options include the following services:
+-  Airflow Workflows: SageMaker APIs to export configurations for creating and managing Airflow workflows.
+-  AWS Step Functions: Multi-step ML workflows in Python that orchestrate SageMaker infrastructure without having to provision your resources separately.
 
 
 
