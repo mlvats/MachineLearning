@@ -32,6 +32,11 @@ Deugger is for Tesorflow (Neural Network ) or XGBoost jobs
 
 ![image](https://github.com/mlvats/MachineLearning/assets/32443900/a1eda7b2-ee51-4b88-92a1-dea068aa4b2a)
 
+-----------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------
+
+# Amazon SageMaker Pipelines 
+
 
 
 
