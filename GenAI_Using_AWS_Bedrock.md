@@ -274,6 +274,11 @@
 
  - Monitor Amazon Bedrock : https://docs.aws.amazon.com/bedrock/latest/userguide/monitoring.html
 
+Ref Link 
+- https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters.html
+- https://docs.aws.amazon.com/bedrock/latest/APIReference/welcome.html
+- https://docs.aws.amazon.com/bedrock/latest/userguide/security.html
+- https://docs.aws.amazon.com/bedrock/latest/userguide/monitoring.html
 ----
 
 
