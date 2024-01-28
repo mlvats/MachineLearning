@@ -125,7 +125,7 @@
 - The responses from the foundation model are sanitized and filtered by the application or app before the users see them on their screens.
 - The application or app should also handle failures and other unintended consequences in a seamless manner so the user experience is not affected.
 - 
-# RAG
+# RAG (Retrieval Augmented Generation)
 - RAG is a framework for building generative AI applications that can make use of enterprise data sources and vector databases to overcome knowledge limitations.
 - RAG works by using a retriever module to find relevant information from an external data store in response to a user's prompt.
 - This retrieved data is used as context, combined with the original prompt, to create an expanded prompt that is passed to the language model.
