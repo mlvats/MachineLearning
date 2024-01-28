@@ -87,9 +87,111 @@
 - These embeddings are stored in a vector database. For more information, refer  :  https://docs.aws.amazon.com/bedrock/latest/userguide/embeddings.html
 
 # Vector databases
+- The core function of vector databases is to compactly store billions of high-dimensional vectors representing words and entities.
+- Vector databases provide ultra-fast similarity search across these billions of vectors in real time.
+- The most common algorithms used to perform the similarity search are k-nearest neighbors (k-NN) or cosine similarity.
+- AWS also offers Pinecone in the AWS Marketplace, and there are open source, in-memory options, like Facebook AI Similarity Search (FAISS), Chroma, and many more.
+- Link :  https://aws.amazon.com/marketplace/pp/prodview-xhgyscinlz4jk
 
 ![image](https://github.com/mlvats/MachineLearning/assets/32443900/3004ed0d-8703-4fc2-808d-39db8057deed)
 
+# Amazon Web Services (AWS) offers the following as viable vector database options:
+- Amazon OpenSearch Service (provisioned)
+- Amazon OpenSearch Serverless
+- pgvector extension in Amazon Relational Database Service (Amazon RDS) for PostgreSQL
+- pgvector extension in Amazon Aurora PostgreSQL - Compatible Edition
+- 
+
+# Vectorized enterprise data
+- After enterprise data is vectorized, you can search the given prompt in a vector database.
+- You can supply the relevant chunks of information as context to improve the output of the generative AI model.
+- This can reduce hallucinations, a phenomenon in which an LLM confidently generates plausible sounding but false information.
+- Vector databases and context are used in Retrieval Augmented Generation (RAG).
+
+# Additional Application Components
+## Prompt history store 
+- A prompt history store is another essential component in a generative AI application, particularly applications used for conversational AI, like chatbots.
+- A prompt history store helps with contextually aware conversations that are both relevant and coherent.
+- Many foundation models have a limited context window, which means you can only pass so much data as input to them.
+- Storing state information in a multiple-turn conversation becomes difficult, which is why a prompt history store is needed.
+- It can persist the state and make it possible to have long-term memory of the conversation.
+- By storing the history of prompts and responses, you can look up prompts from a previous conversation and avoid repetitive requests to the foundation model.
+- This helps with requests from your audit and compliance teams about adherence to company policy and regulations.
+- You can also debug prompt requests and responses to diagnose errors and warnings from your applications.
+
+# Frontend web applications and mobile apps
+- Often, you need to build a frontend application or app that acts as an interface for your users to use generative AI capabilities from the foundation model.
+- The application or app is responsible for constructing prompts and calling the foundation model API.
+- The responses from the foundation model are sanitized and filtered by the application or app before the users see them on their screens.
+- The application or app should also handle failures and other unintended consequences in a seamless manner so the user experience is not affected.
+- 
+# RAG
+- RAG is a framework for building generative AI applications that can make use of enterprise data sources and vector databases to overcome knowledge limitations.
+- RAG works by using a retriever module to find relevant information from an external data store in response to a user's prompt.
+- This retrieved data is used as context, combined with the original prompt, to create an expanded prompt that is passed to the language model.
+- The language model then generates a completion that incorporates the enterprise knowledge.
+- With RAG, language models can go beyond their original training data to use up-to-date, real-world information.
+- RAG addresses the challenge of frequent data changes because it retrieves updated and relevant information instead of relying on potentially outdated sets of data.
+
+![image](https://github.com/mlvats/MachineLearning/assets/32443900/e54d0118-95cb-4fb8-b450-e41aa16aeaa5)
+
+
+- There are two distinct stages when using the RAG pattern.
+- The lower portion of the diagram explains converting the existing knowledge documents into vector embeddings and storing them in a vector database.
+- This phase is typically performed by a batch job.
+- After it is complete, you can augment the user’s query with relevant information or documents using semantic search.
+- You can then pass the user’s query and retrieved information into an LLM for completion.
+
+# Model Fine-Tuning
+## Limitations of RAG and how fine-tuning can address them
+- RAG is useful for enterprise use cases, but relying solely on RAG has some limitations.
+- For example, the retrieval is limited to the enterprise datasets that are embedded into the vector stores at the time of the retrieval.
+- The model remains static.
+- The retrieval can add latency, and, for some use cases, that latency can be a problem.
+- Also, the retrieval is based on pattern matching instead of a complex understanding of the context.
+- Model fine-tuning can change the underlying foundation model as little or as much as you want.
+- The model can learn the enterprise nomenclature, proprietary datasets, terminologies, and so on.
+- Think of this as a permanent change to the underlying model.
+-  By comparison, RAG makes the model intelligent only temporarily by supplying context from relevant document chunks.
+- 
+ 
+## There are two broad categories of fine-tuning:
+-  prompt-based learning and
+-  domain adaptation.
+
+![image](https://github.com/mlvats/MachineLearning/assets/32443900/9fe93812-d42b-4535-83a3-357c3b67385c)
+-------------
+![image](https://github.com/mlvats/MachineLearning/assets/32443900/bcb02099-ca09-4430-982a-c2cf7a49b92b)
+--------------
+
+# Comparing RAG and fine-tuning
+- Both RAG and fine-tuning are suitable for customizing a foundation model for serving enterprise use cases.
+- The choice ultimately depends on users as they consider a host of parameters, such as complexity, cost, and so forth.
+
+# Securing Generative AI Applications
+## Governance and security
+- Governance and security are of paramount importance when building generative AI applications.
+- Governance and security must be in place to make sure that you mitigate risks, maintain oversight, ensure accountability, and earn trust with your customers.
+  
+## Consider the following points when building generative AI applications:
+- Manage and audit who can access each part of the generative AI application, such the foundation models, API methods, and so on.
+- Monitor, log, and report on access to the underlying foundation model either directly or through customized approaches.
+- Log requests to and responses from the foundation model to stay compliant with regulations and to ensure explainability of your actions.
+- Periodically audit foundation models with test data and simulate prompt injection attacks to ensure that there are no unintended consequences.
+- Document the complete process of the various facets of the application and keep them up to date.
+
+ # Generative AI Application Architecture
+ 
+##  Phase 1
+- The focus of this phase is to convert the enterprise data used to augment input prompts into a compatible format to perform a relevancy search.
+- This is done using an embeddings machine learning model.
+- The batch job calls the model to convert existing knowledge documents into its numerical representations.
+- The batch job then stores the data in a vector database using the approach described in the following three steps.
+
+## Phase 2
+- Phase 2 comprises seven steps. To learn more, choose each of the following seven numbered markers.
+
+![image](https://github.com/mlvats/MachineLearning/assets/32443900/d834b78d-ba84-49bf-83a3-ba46c2f895f0)
 
 
 
@@ -98,6 +200,15 @@
 
 
 
+- 
 
+
+
+-  
+
+- 
+
+
+ 
 
 
