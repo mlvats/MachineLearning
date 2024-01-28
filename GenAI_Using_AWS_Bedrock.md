@@ -64,5 +64,40 @@
  - Temperature parameter : Whereas Top P and Top K control which tokens are chosen based on the model’s output, the temperature parameter affects the model’s output directly. The higher the temperature, the flatter the probability distribution, which means it will be uniform across tokens. The generated tokens will be more creative and random. Lower temperature will polarize the distribution, which make deterministic outputs possible.
  - 
 
+# Working with Datasets and Embeddings
+ - Ingesting and using enterprise data sources provide the foundation model with domain-specific knowledge to generate tailored, highly relevant outputs that align with the needs of the enterprise.
+ - You can supply enterprise data to the foundation models as context along with the prompt, which will help the model to return more accurate outputs.
+ -  How do you figure out the context to pass? For that, you need a way to search the enterprise datasets using the prompt text that is passed.
+ -  This is where vector embeddings help.
+
+# Vector embeddings
+- Embedding is the process by which text, images, and audio are given numerical representation in a vector space.
+- Embedding is usually performed by a machine learning model.
+- The following diagram provides more details about embedding. 
+
+![image](https://github.com/mlvats/MachineLearning/assets/32443900/64d7f900-d857-4000-880f-59a53c25a30d)
+
+- Enterprise datasets, such as documents, images and audio, are passed to ML models as tokens and are vectorized.
+- These vectors in an n-dimensional space, along with the metadata about them, are stored in purpose-built vector databases for faster retrieval.
+- For this example, consider only the text modality.
+- The goal of generating embeddings is to capture semantic similarities between text so that text with similar meanings is mapped to nearby points in the vector space.
+- Embeddings are often multi-dimensional vectors.
+- Embedding helps when searching for similar words to find relevant information based on the user’s prompts.
+- Amazon Bedrock provides the Amazon Titan Embeddings G1 - Text model that can convert text into embeddings.
+- These embeddings are stored in a vector database. For more information, refer  :  https://docs.aws.amazon.com/bedrock/latest/userguide/embeddings.html
+
+# Vector databases
+
+![image](https://github.com/mlvats/MachineLearning/assets/32443900/3004ed0d-8703-4fc2-808d-39db8057deed)
+
+
+
+
+
+
+
+
+
+
 
 
