@@ -194,17 +194,90 @@
 ![image](https://github.com/mlvats/MachineLearning/assets/32443900/d834b78d-ba84-49bf-83a3-ba46c2f895f0)
 
 
+# Introduction to Amazon Bedrock Foundation Models
 
-
-
-
-
-
-- 
-
-
-
+-  Each of these FMs cater to different generative artificial intelligence (generative AI) use cases, such as summarization, language translation, coding, and image generation.
 -  
+![image](https://github.com/mlvats/MachineLearning/assets/32443900/10c4ee6d-c540-4f49-993d-506e18b5fff5)
+
+-----------------
+
+## Inference parameters
+ - When interacting with an FM, you can configure the inference parameters to customize the FM’s response.
+ - Generally, you should only adjust one parameter at a time, and the results can vary depending on the FM.
+ - The following parameters can be used to modify the output from the LLMs. Not all parameters are available with all LLMs.
+ - 
+### Randomness and diversity
+![image](https://github.com/mlvats/MachineLearning/assets/32443900/c7cc24c3-e604-457f-9a63-6f37bb517d0c)
+
+### Length
+- Foundation models typically support the following parameters to control the length of the generated response.
+![image](https://github.com/mlvats/MachineLearning/assets/32443900/52989555-3941-4254-a9db-a6810cf10281)
+------------------
+
+# Using Amazon Bedrock FMs for Inference
+
+- Some inference parameters are common across most models, such as temperature, Top P, Top K, and response length.
+- You will dive deep into unique model-specific parameters and I/O configuration you can tune to achieve the desired output based on the use case.
+- 
+## Amazon Titan
+ - Amazon Titan models are Amazon foundation models. Amazon offers the Amazon Titan Text model and the Amazon Titan Embeddings model through Amazon Bedrock.
+
+## AI21 Jurassic-2 (Mid and Ultra)
+
+## Anthropic Claude 2
+- Anthropic Claude 2 is another model available for text generation on Amazon Bedrock.
+- Claude is a generative AI model by Anthropic. It is purpose built for conversations, summarization, question answering, workflow automation, coding, and more.
+- It supports everything from sophisticated dialogue and creative content generation to detailed instruction
+
+## Stability AI (SDXL)
+- This is a text-to-image model used to generate detailed images. SDXL includes support for the following types of image creation:
+-  Image-to-image prompting: This involves inputting one image to get variations of that image.
+-  Inpainting: This involves reconstructing the missing parts of an image.
+-  Outpainting: This involves constructing a seamless extension of an existing image.
+
+## Cohere Command
+- Command is the flagship text generation model by Cohere.
+- It is trained to follow user commands and be useful instantly in practical business applications, such as summarization, copywriting, dialogue, extraction, and question answering.
+- Optimized for business priorities, Cohere is System and Organizations Control (SOC) 2 compliant and emphasizes security, privacy, and responsible AI.
+
+# Amazon Bedrock Methods
+- Amazon Bedrock provides a list of APIs you can access in your respective notebooks and AWS Lambda functions to access Amazon Bedrock.
+- There are Amazon Bedrock configuration related APIs and runtime-related APIs.
+
+## Amazon Bedrock set up and configuration related APIs
+- ListFoundationModels
+## Amazon Bedrock runtime-related APIs
+- InvokeModel
+- InvokeModelWithResponseStream
+
+# Data Protection and Auditability
+
+## Comprehensive data protection and privacy
+ -  Your data used with Amazon Bedrock is not used for service improvement and is not shared with third-party model providers.
+ -  You can use AWS PrivateLink with Amazon Bedrock to establish private connectivity between your FMs and your virtual private cloud (VPC) without exposing your traffic to the internet.
+ -  Your data is encrypted in transit and at rest.
+ -  You can customize FMs privately so you can control how your data is used and encrypted.
+ -  Amazon Bedrock makes a separate copy of the base foundation model and trains the private copy of the model.
+
+## Secure your generative AI applications
+
+- Link - https://docs.aws.amazon.com/bedrock/latest/userguide/security.html
+
+![image](https://github.com/mlvats/MachineLearning/assets/32443900/c857895a-d625-497c-b62a-f6caf63706d3)
+
+----------
+## Support for governance and auditability
+
+![image](https://github.com/mlvats/MachineLearning/assets/32443900/7938943b-90b5-47da-8459-22ed6583e600)
+
+
+ - Monitor Amazon Bedrock : https://docs.aws.amazon.com/bedrock/latest/userguide/monitoring.html
+
+----
+
+
+ 
 
 - 
 
