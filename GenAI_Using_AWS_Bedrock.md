@@ -364,5 +364,12 @@ Ref Link
       )
  ]
  chat(messages)
------
+```
 
+Sample response
+
+```
+Response:
+AIMessage(content=" Here is a list of Indian vegetarian dishes for a meal: aloo gobi, chana masala, and dal tadka.", additional_kwargs={}, example=False)
+```
+---------
