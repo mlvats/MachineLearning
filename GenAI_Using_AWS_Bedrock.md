@@ -373,3 +373,100 @@ Response:
 AIMessage(content=" Here is a list of Indian vegetarian dishes for a meal: aloo gobi, chana masala, and dal tadka.", additional_kwargs={}, example=False)
 ```
 ---------
+## Text embedding models
+- Text embedding models take text as input and then output numerical representations of the text in the form of a vector of floating-point numbers.
+- The numerical representations are called word embeddings, and they capture the semantic meaning of the text.
+- The embeddings are used in various natural language processing (NLP) tasks, such as sentiment analysis, text classification, and information retrieval. Y
+- You can save the embeddings in a vector database to improve search accuracy and for faster retrieval.
+
+### Embedding example
+- The following example demonstrates how to call a BedrockEmbeddings client to send text to the Amazon Titan Embeddings model to get embeddings as a response.
+
+```
+from langchain.embeddings import BedrockEmbeddings
+
+embeddings = BedrockEmbeddings(
+      credentials_profile_name="bedrock-admin",
+      region_name="us-east-1",
+     model_id="amazon.titan-e1t-medium"
+)
+
+embeddings.embed_query("Cooper is a puppy that likes to eat beef.")
+```
+
+- It is important to understand that the embedding vector represents the semantics of the phrase, not of the string.
+- This means that synonyms will result in vectors with more similarity, even if the string is quite different.
+- 
+  
+# Constructing Prompts
+- The prompt is a single text instruction given to the LLM as input to get a response.
+- When building complex generative artificial intelligence (generative AI) applications, you might need to construct prompts in a specific way.
+- You can include instructions, context, or examples, and dynamically populate input variables to guide the LLM to return output to meet your requirements.
+- 
+### Prompt templates in LangChain
+- LangChain provides predefined prompt templates in the form of text strings that can take a set of parameters from the user and generate a prompt.
+- Prompt templates make prompt engineering more efficient and make it possible to reuse prompts.
+
+### Prompt example
+- The following example demonstrates the creation of a prompt template, pass input variables, and templates as arguments.
+
+ ```
+from langchain import PromptTemplate
+
+# Create a prompt template that has multiple input variables
+multi_var_prompt = PromptTemplate(
+     input_variables=["customerName", "feedbackFromCustomer"],
+     template="""
+     Human: Create an email to {customerName} in response to the following customer service feedback that was received from the customer: 
+     <customer_feedback> 
+          {feedbackFromCustomer}
+     </customer_feedback>
+     Assistant:"""
+)
+# Pass in values to the input variables
+prompt = multi_var_prompt.format(customerName="John Doe",
+          feedbackFromCustomer="""Hello AnyCompany, 
+     I am very pleased with the recent experience I had when I called your customer support.
+      I got an immediate call back, and the representative was very knowledgeable in fixing the problem. 
+     We are very happy with the response provided and will consider recommending it to other businesses.
+     """
+)
+
+```
+
+# Structuring Documents with Indexes
+- You can use indexes to structure documents and optimize how LLMs interact with them.
+- In this section, you will learn about the important indexes that can help with AWS relevant integrations: document loaders, retrievers, and vectorstores.
+
+### Document loaders
+- When building generative AI applications using the RAG approach, documents must be loaded from different sources to the LLMs to generate embeddings.
+- LangChain provides the document loaders component, which is responsible for loading documents from various sources.
+- Sources can include a database, an online store, or a local store.
+- You can index and use information from these sources for information retrieval.
+- You can use the document loaders to load different types of documents, such as HTML, PDF, and code.
+- ref : https://python.langchain.com/docs/modules/data_connection/document_loaders.html
+- 
+### Document loaders example
+- The following example demonstrates the loading of a document from Amazon Simple Storage Service (Amazon S3) using the S3FileLoader module.
+
+```
+from langchain.document_loaders import S3FileLoader
+
+loader = S3FileLoader("mysource_bucket","sample-file.docx")
+data = loader.load()
+
+```
+
+### Retriever
+- LangChain includes a retriever component for fetching relevant documents to combine with language models. When a user submits a query, the retriever searches through the document index to find the most relevant documents. It then sends the results to the application for further processing.
+- When building RAG applications on AWS, you can use Amazon Kendra to index and query various data sources.
+- Amazon Kendra is a fully managed service that provides semantic search capabilities for state-of-the-art ranking of documents and passages.
+- Amazon Kendra also comes with pre-built connectors to popular data sources, such as Amazon S3, SharePoint, Confluence, and websites.
+- It supports common document formats, such as HTML, Microsoft Word, PowerPoint, PDF, Excel, and PureText files.
+- LangChain supports different retrieval algorithms.
+- You can use the AmazonKendraRetriever method to retrieve documents from Amazon Kendra.
+- For the complete list of supported retrievers, refer to Retrievers : https://python.langchain.com/docs/modules/data_connection/retrievers/
+
+### Retriever example
+The following example demonstrates the use of the AmazonKendraRetriever to query an Amazon Kendra index and pass the results from that call to an LLM as context along with a prompt.
+
