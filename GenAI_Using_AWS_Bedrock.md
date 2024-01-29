@@ -1,6 +1,11 @@
 # Building Generative AI Applications Using Amazon Bedrock 
 - Link - https://explore.skillbuilder.aws/learn/course/17904/play/94134/module-1-introduction-to-amazon-bedrock
 
+- Amazon Bedrock Workshop : https://catalog.us-east-1.prod.workshops.aws/workshops/a4bdb007-5600-4368-81c5-ff5b4154f518/en-US
+- Amazon Bedrock User Guide : https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-bedrock.html
+- Amazon Bedrock API Reference : https://docs.aws.amazon.com/bedrock/latest/APIReference/welcome.html
+- Agents for Amazon Bedrock : https://docs.aws.amazon.com/bedrock/latest/userguide/agents.html
+
 ------
 
  ## Amazon Bedrock offers several natural language processing (NLP) capabilities that can assist data scientists in their work.
@@ -763,6 +768,81 @@ llm_agent.run(" What is the distance between San Francisco and Los Angeles? If I
 - The architecture pattern for personalized and specific use cases results in reliable and accurate responses.
 
 # Chatbots
+
+### Conversational interfaces 
+- A basic architectural pattern of a chatbot use case with Amazon Bedrock is illustrated in the following diagram.
+- In this basic use case, the user might enter a specific prompt, such as a question to Amazon Bedrock.
+- The FM stores the chat, or the questions and responses generated, in a chat history.
+- Based on the history of the chat and the current prompt from the user, Amazon Bedrock provides an accurate and helpful response.
+
+  ![image](https://github.com/mlvats/MachineLearning/assets/32443900/a0b9d4c9-ce37-4a3f-8805-95d412c009a4)
+-------------
+![image](https://github.com/mlvats/MachineLearning/assets/32443900/00ba98c8-8c5a-4644-bfb6-b90c4b2a8d83)
+----
+### Architecture for a context-aware chatbot
+![image](https://github.com/mlvats/MachineLearning/assets/32443900/e6181327-2f63-41e7-80f7-1209c7734a05)
+-------------
+![image](https://github.com/mlvats/MachineLearning/assets/32443900/0814af64-7449-43b7-aa25-8d5874038ce7)
+---------
+
+# Code Generation
+##  Coding and programming tasks
+- You can also use the foundation models in Amazon Bedrock for various coding and programming related tasks.
+- Examples include code and SQL query generation, code explanation and translation, bug fixing, code optimization, and so forth.
+- Using foundation models for coding related tasks helps developers and data scientists rapidly prototype their ideas and use cases.
+- The following architecture pattern illustrates the use case of using the FMs in Amazon Bedrock for coding and programming. 
+
+![image](https://github.com/mlvats/MachineLearning/assets/32443900/73bbbfe9-e377-478b-954f-4eafb5be71bb)
+
+- In this pattern, you provide a prompt in plain text to the foundation model.
+- The prompt includes an instruction telling the model what to generate and, in some cases, a few code examples.
+- You can use this architecture for several use cases, such as SQL query generation, completing certain tasks requiring specific code instructions, and so forth. 
+
+## LangChain and Agents for Amazon Bedrock
+- Foundation models undergo extensive training on vast amounts of data.
+- Despite their substantial natural language understanding capabilities, they cannot independently perform tasks like processing insurance claims or making flight reservations.
+- This limitation arises from the necessity for access to the latest company or industry-specific data, which foundation models cannot obtain from up-to-date knowledge sources by default.
+- Additionally, FMs cannot take specific actions to fulfill requests without a great deal of manual programming.
+- Certain applications demand an adaptable sequence of calls to language models and various utilities depending on user input.
+- The agent interface provides flexibility for these applications.
+- An agent has availability to a range of resources and selects which ones to use based on the user input.
+- Agents can use multiple tools, and they can use the output of one tool as the input for the next.
+  
+![image](https://github.com/mlvats/MachineLearning/assets/32443900/57f4669a-11c0-4bad-be02-0ad66034fdf0)
+----
+
+## Using ReAct to run agents on LangChain
+- You can run agents on LangChain by using one of two techniques: plan and execute or ReAct, which stands for reasoning and acting.
+- The ReAct technique will evaluate the prompt and determine the next step in solving the problem.
+- It will then run that step and then repeat the process until the LLM can answer the question.
+- Plan and execute works a little differently in that it determines the steps needed ahead of time and performs them sequentially.
+
+![image](https://github.com/mlvats/MachineLearning/assets/32443900/2d75495d-d831-4412-bc44-b469630f0312)
+-----
+## Agents for Amazon Bedrock 
+- Amazon Bedrock is a fully managed offering that makes it more efficient for developers to automate tasks.
+- With agents for Amazon Bedrock, FMs can understand user requests, break down complex tasks into multiple steps, and take necessary actions to fulfill requests. D
+- evelopers can use agents for Amazon Bedrock to create an orchestration plan without any manual coding.
+- For example, an agent-powered generative AI restaurant application can provide a basic response to the question,
+- “Do we have sufficient amounts of dough to sustain this week?” However, it can also help you with the task of updating your inventory.
+
+![image](https://github.com/mlvats/MachineLearning/assets/32443900/71bec0db-4a36-4ba4-a1db-d08da062bf51)
+---
+- Example: Connecting foundation models to your company data sources with agents for Amazon Bedrock
+- Now, you will take a closer look at using agents for Amazon Bedrock with an example.
+- Sometimes, you want your foundation models to have access to additional data to help the model generate more relevant, context-specific responses without regularly retraining your foundation model.
+- The following steps provide agents access to a knowledge base in Amazon Bedrock. To learn about each step, expand each of the following four categories.
+
+![image](https://github.com/mlvats/MachineLearning/assets/32443900/0956b282-5360-481c-9078-239c3f3ca8d3)
+----
+![image](https://github.com/mlvats/MachineLearning/assets/32443900/a5cb1a32-63af-4809-9feb-aee55c6f557d)
+---
+
+
+
+
+
+
 
 
 
