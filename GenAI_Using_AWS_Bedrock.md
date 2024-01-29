@@ -470,3 +470,304 @@ data = loader.load()
 ### Retriever example
 The following example demonstrates the use of the AmazonKendraRetriever to query an Amazon Kendra index and pass the results from that call to an LLM as context along with a prompt.
 
+```
+from langchain.retrievers import AmazonKendraRetriever
+from langchain.chains import ConversationalRetrievalChain
+from langchain.prompts import PromptTemplate
+from langchain.llms.bedrock import Bedrock
+
+
+llm = Bedrock(
+     credentials_profile_name=credentials_profile_name,
+     region_name = region,
+     model_kwargs={"max_tokens_to_sample":300,"temperature":1,"top_k":250,"top_p":0.999,"anthropic_version":"bedrock-2023-05-31"},
+     model_id="anthropic.claude-v2"
+)
+
+retriever = AmazonKendraRetriever(index_id=kendra_index_id,top_k=5,region_name=region)
+
+prompt_template = """ Human: This is a friendly conversation between a human and an AI. 
+     The AI is talkative and provides specific details from its context but limits it to 240 tokens.
+     If the AI does not know the answer to a question, it truthfully says it does not know.
+
+     Assistant: OK, got it, I'll be a talkative truthful AI assistant.
+
+     Human: Here are a few documents in <documents> tags:
+     <documents>
+     {context}
+</documents>
+     Based on the above documents, provide a detailed answer for, {question} 
+     Answer "do not know" if not present in the document. 
+
+      Assistant:
+     """
+
+PROMPT = PromptTemplate(
+     template=prompt_template, input_variables=["context", "question"]
+     )
+
+response = ConversationalRetrievalChain.from_llm(
+     llm=llm, 
+     retriever=retriever, 
+     return_source_documents=True, 
+     combine_docs_chain_kwargs={"prompt":PROMPT},
+     verbose=True)
+
+```
+## Vector stores 
+- When building generative AI applications, such as question answering bots, the LLMs produce accurate results when relevant company-specific or user-specific data is given as context.
+- 
+
+![image](https://github.com/mlvats/MachineLearning/assets/32443900/1fac748f-9ec6-4591-84b7-171281a6d3ed)
+--------
+- LangChain supports both open source and provider-specific vector stores.
+- LangChain supports vector engine for Amazon OpenSearch Serverless and the pgvector extension available with Amazon Aurora PostgreSQL-Compatible Edition.
+- LangChain provides the vector stores component to query the supported vector stores for relevant data.
+
+## Vector store example
+- The following example demonstrates how to create an instance of the VectorStore class and use OpenSearch Serverless as a vector store to query embeddings.
+```
+import os
+
+from langchain.embeddings import BedrockEmbeddings
+from langchain.vectorstores import OpenSearchVectorSearch
+
+index_name = os.environ["AOSS_INDEX_NAME"]
+endpoint = os.environ["AOSS_COLLECTION_ENDPOINT"]
+
+embeddings = BedrockEmbeddings(client=boto3_bedrock)
+
+vector_store = OpenSearchVectorSearch(
+          index_name=index_name,
+          embedding_function=embeddings,
+          opensearch_url=endpoint,
+          http_auth=get_aws4_auth(),
+          use_ssl=True,
+          verify_certs=True,
+          connection_class=RequestsHttpConnection,
+     )
+retriever = vector_store.as_retriever()
+
+```
+
+# Storing and Retrieving Data with Memory
+- Memory plays a crucial role in building conversational interfaces like chatbots.
+- The chatbots powered by language models can respond in a human-like manner if they can remember the previous interactions with the user.
+- However, the LLMs themselves do not hold state. Hence, a prompt should include the context of the conversation.
+
+## LangChain memory
+- LangChain memory provides the mechanism to store and summarize (if needed) prior conversational elements that are included in the context on subsequent invocations.
+- LangChain provides components in the form of helper utilities for managing and manipulating previous chat messages.
+- These utilities are modular.
+- You can chain them with other components and interact with different types of abstractions to build powerful chatbots.
+- In LangChain, there are different ways you can implement conversational memory for a chatbot as follows:
+    - ConversationBufferMemory: The ConversationBufferMemory is the most common type of memory in LangChain. It includes past conversations that happened between the user and the LLM.
+    - ConversationChain: The ConversationBufferMemory is built on top of ConversationChain, which is designed for managing conversations. For a complete list of supported memory types, refer to - https://python.langchain.com/docs/modules/memory/types/
+ 
+## Memory example
+- The following example demonstrates the use of ConversationBufferMemory to store the previous conversation and have the LLM respond to subsequent questions by using the chat history.
+
+```
+from langchain.chains import ConversationChain
+from langchain.llms.bedrock import Bedrock
+from langchain.memory import ConversationBufferMemory
+
+titan_llm = Bedrock(model_id="amazon.titan-tg1-large", client=boto3_bedrock)
+memory = ConversationBufferMemory()
+
+conversation = ConversationChain(
+     llm=titan_llm, verbose=True, memory=memory
+)
+
+print(conversation.predict(input="Hi! I am in Los Angeles. What are some of the popular sightseeing places?")) 
+```
+- Ask a question without mentioning the city Los Angeles to find out how the model responds according to the previous conversation.
+  ```
+  print(conversation.predict(input="What is closest beach that I can go to?"))
+  ```
+
+  # Using Chains to Sequence Components
+  - To build complex generative AI applications, you can chain LLMs with other LangChain components, such as memory and retrievers.
+  - For example, you can chain two different tasks. First, ask the LLM to write a blog on a particular topic. Second, request the model to produce a blog title.
+  - A chain can also run a set of chains, so you can create a more complex flow with multiple calls to an LLM. It uses the results of one call as the input to the next call.
+  - 
+## Chaining components
+- At its core, a chain is a set of components that run together.
+- The component can be a call to an LLM, an API, or a sequence of other chains.
+- The component has an input format and an output.
+- For example, the LLMChain takes in an LLM, a prompt template, and parameters to the prompt template.
+- It returns the output of the LLM call.
+- The chain can parse the output of the LLM to a specific format and return the data in a more structured way.
+- A chain can also run a set of chains, so you can create a more complex flow with multiple calls to an LLM. It uses the results of one call as the input to the next call.
+
+## Processing large amounts of data
+- Chains are also helpful when processing more data than can be contained in the context.
+- For example, you might do a document summarization against a very large document.
+- The chain will chunk up the document and make multiple calls to the LLM to produce a single summary.
+- There are different types of chains that LangChain supports, among which the LLMChain is a common one.
+- For the complete list of supported chains, refer to Chains(opens in a new tab). https://python.langchain.com/docs/modules/chains/
+- 
+## Chain example
+- The following example demonstrates how to use chains to call an LLM multiple times in a sequence.
+```
+from langchain import PromptTemplate
+from langchain.chains import LLMChain
+from langchain.llms.bedrock import Bedrock
+
+llm = Bedrock(
+     credentials_profile_name=credentials_profile_name,
+     region_name = region,
+     model_kwargs=         
+ {"max_tokens_to_sample":300,"temperature":1,"top_k":250,"top_p":0.999,"anthropic_version":"bedrock-2023-05-31"},
+     model_id="anthropic.claude-v2"
+)
+
+prompt = PromptTemplate(
+     input_variables=["company"],
+     template="Create a list with the names of the main metrics tracked in the reports of {company}.",
+)
+
+chain = LLMChain(llm=llm, prompt=prompt)
+answers = chain.run("Amazon")
+print(answers)
+
+answers = chain.run("AWS")
+print(answers)
+
+```
+# Managing External Resources with LangChain Agents
+- The LLMs are pretrained on a vast amount of text data and learn from a wide range of patterns.
+- Hence, they can generate effective text responses.
+- However, they lack the capability when it comes to solving rule-based mathematical, logic, and reasoning types of requests.
+- 
+## Using LangChain agents
+- LangChain agents can interact with external sources, such as search engines, calculators, APIs, or databases.
+- The agents can also run code to perform actions to assist the LLMs in generating accurate responses.
+- LangChain provides the chain interface to sequence multiple components to build an application.
+- An LLMChain is an example of a basic chain.
+- The following mechanisms use basic chains:
+- A RAG application can use an LLMChain to return a response. The response is based on two pieces of information: the user query and a context supplied as a set of documents retrieved from a vector store.
+- A RouterChain is an example of a complex chain. For example, you can use a RouterChain to select one prompt template from the available prompt templates based on user input.
+- The LangChain agents act as reasoning engines for the LLMs to decide the actions to take and the order in which to take the actions. An action can be a tool that uses the results from a search engine or a math calculator.
+
+ ## LangChain agent features
+ -  The LangChain agent follows a sequence of actions :
+![image](https://github.com/mlvats/MachineLearning/assets/32443900/90259f3e-5d2d-4bb8-a091-777b9350a18e)
+----
+- For more information, refer to ReAct : https://python.langchain.com/docs/modules/agents/agent_types/react
+- For a complete list of agents, refer to Agents : https://python.langchain.com/docs/modules/agents/
+- 
+## Agent example
+- The following example demonstrates how to initialize an agent, a tool, and an LLM to form a chain.
+
+```
+from langchain.agents import load_tools
+from langchain.agents import initialize_agent, Tool
+from langchain.agents import AgentType
+from langchain.llms.bedrock import Bedrock
+from langchain import LLMMathChain
+
+llm = Bedrock(model_id="anthropic.claude-instant-v1", client=boto3_bedrock, model_kwargs=model_parameter)
+
+```
+- A ZERO_SHOT ReAct agent calls the in-built tool LLMMathChain to do math calculations separately and pass the result to the LLM for the final response.
+
+```
+llm_math = LLMMathChain(llm=llm)
+
+maths_tool = Tool(
+     name='Calculator',
+     func=llm_math.run,
+     description='Calculator you need to solve math problems.'
+)
+
+tools = load_tools(
+          ['llm-math'],
+          llm=llm
+     )
+
+llm_agent = initialize_agent(
+     agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION,
+     tools=tools,
+     llm=llm,
+     verbose=True
+)
+
+llm_agent.run(" What is the distance between San Francisco and Los Angeles? If I travel from San Francisco to Los Angeles with the speed of 40 , how long will it take?")
+
+```
+- LLMs perform multiple tasks, such as text generation, text summarization, question answering, and sentiment analysis.
+- However, the models do not perform well when the task requires dealing with out-of-domain data or remembering conversational context.
+- These challenges lead to hallucinations or inaccurate responses.
+
+- LangChain agents can interact with external sources, like search engines, calculators, APIs, or databases.
+- Agents can also run code to perform actions to assist the LLMs in generating accurate responses.
+- The memory component provides the mechanism to store and summarize prior conversational elements that are included in the context on subsequent invocations.
+- The retriever is the component for fetching relevant documents to combine with language models.
+- The document loaders component is responsible for loading documents from various sources.
+- 
+  
+# Architecture Patterns
+## Introduction to Architecture Patterns
+
+- Architecture patterns:  In this module, you will learn about various architecture patterns that can be implemented with Amazon Bedrock for building useful generative AI applications such as the following: 
+
+![image](https://github.com/mlvats/MachineLearning/assets/32443900/991b6376-d36e-49fd-84f7-037692de15d5)
+-----
+
+## Text Generation and Text Summarization
+####  Text generation
+- The architecture pattern for text generation using Amazon Bedrock is illustrated in the following image.
+- You can pass the Amazon Bedrock foundation model a prompt using an Amazon Bedrock playground or an Amazon Bedrock API call.
+- The model will generate text based on the input prompt you provide. You will learn how to do this in Module 6: Hands on Labs. 
+![image](https://github.com/mlvats/MachineLearning/assets/32443900/bea608d8-3bce-4b8a-8df9-944b05513e78)
+-----
+###  Text generation with LangChain
+- For text generation, you can also use a LangChain layer to add a conversation chain to specific text generation use cases.
+- LangChain is a powerful open source library.
+- It pairs well with some of the strongest text generation FMs on Amazon Bedrock to efficiently create conversations, text generation, and more.
+- The architecture pattern for text generation with LangChain is illustrated in the following figure.
+
+![image](https://github.com/mlvats/MachineLearning/assets/32443900/236e02d2-250f-45ab-a61f-ff9833dc2a21)
+-----
+
+###  Text summarization
+- There are two main types of text summarization techniques:
+- Extractive Summarization : This technique involves identifying and selecting the most important words, phrases, or sentences from source a document and then concatenating them to form a summary. The selected elements are usually the most informative and representative parts of the text.
+- Abstractive Summarization: This technique involves generating new text that is not a rephrasing of the source document. It consists of creating new text summaries that capture the key ideas and elements of the source text. Abstractive methods should produce coherent text that is similar to human-generated summaries.
+
+### Application of text summarization
+- Text summarization can help reduce information overload by synthesizing and surfacing important information that is more digestible and actionable by users. It has a wide range of applications
+- 
+![image](https://github.com/mlvats/MachineLearning/assets/32443900/fe0ff1de-ab9a-47df-a948-bf90a0508c78)
+---
+
+### Architecture patterns for text summarization applications
+
+![image](https://github.com/mlvats/MachineLearning/assets/32443900/20b99536-6db3-4dce-98db-e446daff4f10)
+-----
+![image](https://github.com/mlvats/MachineLearning/assets/32443900/59d2d9dc-3006-44e2-a2b7-6be61030aed7)
+----
+
+### Question answering architecture
+- Question answering is an important task that involves extracting answers to factual queries posed in natural language.
+- Typically, a question answering system processes a query against a knowledge base containing structured or unstructured data and generates a response with accurate information.
+- Ensuring high accuracy is key to developing a useful, reliable, and trustworthy question answering system, especially for enterprise use cases.
+- 
+![image](https://github.com/mlvats/MachineLearning/assets/32443900/8caca60c-7fff-480d-8289-10a8adc0809b)
+----
+![image](https://github.com/mlvats/MachineLearning/assets/32443900/32b7d7c1-8204-4e91-ad63-8a09a6e86012)
+---
+- One of the challenges in question answering is a limited number of tokens in the context.
+- It is resolved by using RAG.
+- The architecture pattern for personalized and specific use cases results in reliable and accurate responses.
+
+# Chatbots
+
+
+
+
+
+
+
+
