@@ -1,4 +1,4 @@
-# Distributed databases : 
+# Distributed Databases : 
 ### What are big data system : 
 - Three Vs (Volume, Velocity and Variety)
 - Characteristics requriements - multi region avaibility, Veryfast and reliable response and no single point of failure
